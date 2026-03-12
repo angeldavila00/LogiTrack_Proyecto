@@ -5,7 +5,9 @@ import com.example.proyecto_logitrack.dto.response.BodegaResponseDTO;
 import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_logitrack.modelo.Bodega;
 import com.example.proyecto_logitrack.modelo.Usuario;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BodegaMapper {
     /*entidadADTO*/
     public BodegaResponseDTO entidadADTO (Bodega bodega, UsuarioResponseDTO dto){

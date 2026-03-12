@@ -7,7 +7,9 @@ import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_logitrack.modelo.Bodega;
 import com.example.proyecto_logitrack.modelo.Movimiento;
 import com.example.proyecto_logitrack.modelo.Usuario;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MovimientoMapper {
 
     /*entidadADTO*/
@@ -43,7 +45,7 @@ public class MovimientoMapper {
     /*actualizarEntidadDesdeDTO*/
 
     public void actualizarEntidadDesdeDTO (Movimiento movimiento, MovimientoRequestDTO dto, Usuario usuario, Bodega bodegaOrigen,
-                                           Bodega bodegaDestino, BodegaResponseDTO dtoBodegaOrigen) {
+                                           Bodega bodegaDestino) {
         if(dto == null || usuario == null || bodegaDestino==null || bodegaOrigen== null) return;
         movimiento.setFecha(dto.fecha());
         movimiento.setTipomovimiento(dto.tipoMovimiento());

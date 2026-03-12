@@ -5,7 +5,9 @@ import com.example.proyecto_logitrack.dto.response.AuditoriaResponseDTO;
 import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_logitrack.modelo.Auditoria;
 import com.example.proyecto_logitrack.modelo.Usuario;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuditoriaMapper {
 
     /*entidadADTO*/
