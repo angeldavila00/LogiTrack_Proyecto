@@ -22,6 +22,6 @@ public interface BodegaRepository extends JpaRepository<Bodega,Long> {
     List<Bodega> findByUsuarioId(Long usuarioId);
 
     // Verificar si existe una bodega con ese nombre (útil para evitar duplicados)
-    boolean existsByNombre(String nombre);
+    boolean existsByUsuarioId(Long id);
 
 }

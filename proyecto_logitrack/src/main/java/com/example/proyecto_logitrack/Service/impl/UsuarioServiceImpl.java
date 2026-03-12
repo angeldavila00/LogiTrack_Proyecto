@@ -1,11 +1,14 @@
 package com.example.proyecto_logitrack.Service.impl;
 
 import com.example.proyecto_logitrack.Service.UsuarioService;
+import com.example.proyecto_logitrack.dto.request.BodegaRequestDTO;
 import com.example.proyecto_logitrack.dto.request.UsuarioRequestDTO;
 import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_logitrack.mapper.UsuarioMapper;
 import com.example.proyecto_logitrack.modelo.Usuario;
+import com.example.proyecto_logitrack.repository.BodegaRepository;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final BodegaRepository bodegaRepository;
 
     @Override
     public UsuarioResponseDTO crear(UsuarioRequestDTO dto) {
@@ -50,8 +54,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void eliminar(Long id) {
-        Usuario u= usuarioRepository.findById(id).orElseThrow(()-> new RuntimeException("No existe el usuario"));
-        usuarioRepository.delete(u);
-
+        if (!usuarioRepository.existsById(id)) {
+            throw new EntityNotFoundException("Error: no existe el Usuario a eliminar");
+        }
+        if (bodegaRepository.existsByUsuarioId(id)) {
+            throw new RuntimeException("Error: no se puede eliminar el Usuario porque tiene Bodegas asociadas");
+        }
+        usuarioRepository.deleteById(id);
     }
 }
