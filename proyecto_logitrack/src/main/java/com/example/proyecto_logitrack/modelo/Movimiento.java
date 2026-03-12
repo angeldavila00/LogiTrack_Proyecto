@@ -22,7 +22,8 @@ public class Movimiento {
     @Column(nullable = false)
     private Date fecha;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_movimiento",nullable = false)
     private TipoMovimiento tipomovimiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
