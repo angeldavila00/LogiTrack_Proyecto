@@ -43,12 +43,12 @@ public class MovimientoDetalleMapper {
 
     public void actualizarEntidadDesdeDTO (MovimientoDetalle movimientoDetalle,
                                            MovimientoDetalleRequestDTO dto,
-                                           Producto producto,
-                                           Movimiento  movimiento){
+                                           Movimiento  movimiento,Producto producto){
         if(dto == null || movimiento==null|| movimientoDetalle==null || producto==null) return;
         movimientoDetalle.setCantidad(dto.cantidad());
-        movimientoDetalle.setMovimiento(movimiento);
         movimientoDetalle.setProducto(producto);
+        movimientoDetalle.setMovimiento(movimiento);
+
     }
 
 }

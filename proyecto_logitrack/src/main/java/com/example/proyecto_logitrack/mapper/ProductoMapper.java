@@ -1,10 +1,9 @@
 package com.example.proyecto_logitrack.mapper;
 
-import com.example.proyecto_logitrack.dto.request.BodegaRequestDTO;
+
 import com.example.proyecto_logitrack.dto.request.ProductoRequestDTO;
 import com.example.proyecto_logitrack.dto.response.BodegaResponseDTO;
 import com.example.proyecto_logitrack.dto.response.ProductoResponseDTO;
-import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_logitrack.modelo.Bodega;
 import com.example.proyecto_logitrack.modelo.Producto;
 import org.springframework.stereotype.Component;
