@@ -3,6 +3,7 @@ package com.example.proyecto_logitrack.Service.impl;
 import com.example.proyecto_logitrack.Service.MovimientoDetalleService;
 import com.example.proyecto_logitrack.dto.request.MovimientoDetalleRequestDTO;
 import com.example.proyecto_logitrack.dto.response.*;
+import com.example.proyecto_logitrack.exception.BusinessRuleException;
 import com.example.proyecto_logitrack.mapper.*;
 import com.example.proyecto_logitrack.modelo.Movimiento;
 import com.example.proyecto_logitrack.modelo.MovimientoDetalle;
@@ -34,6 +35,15 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
 
         Producto producto = productoRepository.findById(dto.productoId())
                 .orElseThrow(() -> new RuntimeException("Error: no existe el producto"));
+
+        // Validar stock
+        if (producto.getStock() < dto.cantidad()) {
+            throw new BusinessRuleException("Error: no hay stock suficiente del producto");
+        }
+
+        // Restar stock al producto
+        producto.setStock(producto.getStock() - dto.cantidad());
+        productoRepository.save(producto);
 
         MovimientoDetalle md = movimientoDetalleMapper.DTOAentidad(dto, movimiento, producto);
         MovimientoDetalle md_insertado = movimientoDetalleRepository.save(md);
