@@ -12,14 +12,6 @@ public interface MovimientoRepository extends JpaRepository<Movimiento,Long> {
     // Buscar movimientos por tipo (ENTRADA, SALIDA, TRASLADO, etc.)
     List<Movimiento> findByTipomovimiento(TipoMovimiento tipomovimiento);
 
-    // Buscar movimientos de un usuario
-    List<Movimiento> findByUsuarioId(Long usuarioId);
-
-    // Buscar movimientos por bodega origen
-    List<Movimiento> findByBodegaOrigenId(Long bodegaOrigenId);
-
-    // Buscar movimientos por bodega destino
-    List<Movimiento> findByBodegaDestinoId(Long bodegaDestinoId);
 
     // Buscar movimientos en un rango de fechas
     List<Movimiento> findByFechaBetween(Date fechaInicio, Date fechaFin);

@@ -92,7 +92,8 @@ public class ProductoServiceImpl implements ProductoService {
 
         BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(
                 bodegaRepository.findById(p.getBodega().getId())
-                        .orElseThrow(() -> new RuntimeException("Error: no existe la bodega")), dtoUsuario);
+                        .orElseThrow(() -> new RuntimeException("Error: no existe la bodega")),
+                dtoUsuario);
 
         return productoMapper.entidadADTO(p, dtoBodega);
     }

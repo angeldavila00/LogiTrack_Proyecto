@@ -6,6 +6,7 @@
 -- ==========================
 CREATE DATABASE IF NOT EXISTS logitrack_db;
 USE logitrack_db;
+show tables;
 
 -- ==========================
 -- TABLA USUARIOS
@@ -71,7 +72,7 @@ CREATE TABLE movimiento_detalle (
     cantidad INT NOT NULL,
     movimiento_id INT,
     producto_id INT,
-
+    
     FOREIGN KEY (movimiento_id) REFERENCES movimiento(id),
     FOREIGN KEY (producto_id) REFERENCES producto(id)
 );

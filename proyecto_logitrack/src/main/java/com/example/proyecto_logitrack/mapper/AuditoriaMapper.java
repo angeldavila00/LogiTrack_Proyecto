@@ -30,8 +30,8 @@ public class AuditoriaMapper {
         auditoria.setEntidad(dto.entidad());
         auditoria.setOperacion(dto.operacion());
         auditoria.setFecha(dto.fecha());
-        auditoria.setValor_anterior(dto.valorAnterior());
-        auditoria.setValor_nuevo(dto.valorNuevo());
+        auditoria.setValor_anterior(dto.valor_anterior());
+        auditoria.setValor_nuevo(dto.valor_nuevo());
         auditoria.setUsuario(usuario);
         return auditoria;
     }
@@ -43,8 +43,8 @@ public class AuditoriaMapper {
         auditoria.setEntidad(dto.entidad());
         auditoria.setOperacion(dto.operacion());
         auditoria.setFecha(dto.fecha());
-        auditoria.setValor_anterior(dto.valorAnterior());
-        auditoria.setValor_nuevo(dto.valorNuevo());
+        auditoria.setValor_anterior(dto.valor_anterior());
+        auditoria.setValor_nuevo(dto.valor_nuevo());
         auditoria.setUsuario(usuario);
     }
 }
