@@ -9,6 +9,6 @@ public record LoginRequest(
         String username,
         @NotBlank(message = "Esta campo no puede estar vacio o solo con espacios")
         @Schema(description = "Contraseña del usuario con al menos una mayúscula, una minúscula y un número", example = "Admin1234")
-        String contrasena
+        String password
 ) {
 }

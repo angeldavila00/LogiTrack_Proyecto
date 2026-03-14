@@ -3,10 +3,16 @@ package com.example.proyecto_logitrack.mapper;
 import com.example.proyecto_logitrack.dto.request.UsuarioRequestDTO;
 import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
 import com.example.proyecto_logitrack.modelo.Usuario;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /*entidadADTO*/
     public UsuarioResponseDTO entidadADTO(Usuario usuario){
@@ -24,7 +30,7 @@ public class UsuarioMapper {
         usuario.setNombre(dto.nombre());
         usuario.setDocumento(dto.documento());
         usuario.setUsername(dto.username());
-        usuario.setPassword(dto.password());
+        usuario.setPassword(passwordEncoder.encode(dto.password()));
         usuario.setRol(dto.rol());
         return usuario;
     }
@@ -36,7 +42,7 @@ public class UsuarioMapper {
         usuario.setNombre(dto.nombre());
         usuario.setDocumento(dto.documento());
         usuario.setUsername(dto.username());
-        usuario.setPassword(dto.password());
+        usuario.setPassword(passwordEncoder.encode(dto.password()));
         usuario.setRol(dto.rol());
     }
 
