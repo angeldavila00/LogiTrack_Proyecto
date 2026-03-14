@@ -122,6 +122,7 @@ public class BodegaController {
                     content = @Content
             )
     })
+
     public ResponseEntity<Void> eliminarBodega(@PathVariable Long id){
         bodegaService.eliminarBodega(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

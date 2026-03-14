@@ -9,6 +9,9 @@ import com.example.proyecto_logitrack.exception.BusinessRuleException;
 import com.example.proyecto_logitrack.modelo.Usuario;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,19 @@ public class AuthController {
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
 
+    @Operation(
+            summary = "Iniciar Login",
+            description = "Permite Login en el sistema"
+    )
     @PostMapping("/login")
+    @ApiResponses(value = {
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Datos inválidos o body mal estructurado",
+                    content = @Content
+            )
+    })
     public Map<String, String> login(@RequestBody LoginRequest request) {
         System.out.println("LOGIN REQUEST: " + request.username());
 
@@ -44,7 +59,23 @@ public class AuthController {
         return Map.of("token", token);
     }
 
+    @Operation(
+            summary = "Crear usuario",
+            description = "Permite registrar un nuevo usuario en el sistema"
+    )
     @PostMapping("/registro")
+
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Usuario creadao exitosamente"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Datos inválidos o body mal estructurado",
+                    content = @Content
+            )
+    })
     public ResponseEntity<?> registro(@RequestBody RegistroRequest request) {
         usuarioService.crear(new UsuarioRequestDTO(
                 request.nombre(),

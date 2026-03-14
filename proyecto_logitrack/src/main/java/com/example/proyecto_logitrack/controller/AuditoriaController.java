@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+@Tag(name = "Auditoria",description = "Contiene todo lo relacionado con las Auditorias")
 
 @RestController
 @RequestMapping("/api/auditoria")
@@ -50,6 +51,7 @@ public class AuditoriaController {
     @GetMapping
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Auditorias obtenida correctamente")
+
     })
     public ResponseEntity<List<AuditoriaResponseDTO>> obtenerAuditorias() {
         return ResponseEntity.ok().body(auditoriaService.listarAuditorias());
