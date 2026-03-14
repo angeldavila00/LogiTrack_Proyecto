@@ -1,6 +1,8 @@
 package com.example.proyecto_logitrack.Service.impl;
 
+import com.example.proyecto_logitrack.Service.AuditoriaService;
 import com.example.proyecto_logitrack.Service.ProductoService;
+import com.example.proyecto_logitrack.config.SecurityUtils;
 import com.example.proyecto_logitrack.dto.request.ProductoRequestDTO;
 import com.example.proyecto_logitrack.dto.response.BodegaResponseDTO;
 import com.example.proyecto_logitrack.dto.response.ProductoResponseDTO;
@@ -9,11 +11,13 @@ import com.example.proyecto_logitrack.mapper.BodegaMapper;
 import com.example.proyecto_logitrack.mapper.ProductoMapper;
 import com.example.proyecto_logitrack.mapper.UsuarioMapper;
 import com.example.proyecto_logitrack.modelo.Bodega;
+import com.example.proyecto_logitrack.modelo.Operacion;
 import com.example.proyecto_logitrack.modelo.Producto;
 import com.example.proyecto_logitrack.repository.BodegaRepository;
 import com.example.proyecto_logitrack.repository.ProductoRepository;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
@@ -29,6 +34,8 @@ public class ProductoServiceImpl implements ProductoService {
     private final BodegaMapper bodegaMapper;
     private final UsuarioMapper usuarioMapper;
     private final UsuarioRepository usuarioRepository;
+    private final AuditoriaService auditoriaService;
+
     @Override
     public ProductoResponseDTO crearProducto(ProductoRequestDTO dto) {
         Bodega b = bodegaRepository.findById(dto.bodegaId())
@@ -40,8 +47,12 @@ public class ProductoServiceImpl implements ProductoService {
 
         Producto p = productoMapper.DTOAentidad(dto, b);
         Producto p_insertado = productoRepository.save(p);
-
         BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(b, dtoUsuario);
+
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.INSERT, null,
+                        "id=" + p_insertado.getId() + ", nombre=" + p_insertado.getNombre() + ", stock=" + p_insertado.getStock(),
+                        responsable.getId()));
 
         return productoMapper.entidadADTO(p_insertado, dtoBodega);
     }
@@ -49,11 +60,11 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoResponseDTO actualizarProducto(ProductoRequestDTO dto, Long id) {
         Producto p = productoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Error: no existe dicho Producto a actualizar"));
+                .orElseThrow(() -> new EntityNotFoundException("Error: no existe dicho Producto"));
+        String valorAnterior = "nombre=" + p.getNombre() + ", stock=" + p.getStock();
 
         Bodega b = bodegaRepository.findById(dto.bodegaId())
                 .orElseThrow(() -> new RuntimeException("Error: no existe la bodega"));
-
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
                 usuarioRepository.findById(b.getUsuario().getId())
                         .orElseThrow(() -> new RuntimeException("Error: no existe el usuario")));
@@ -61,8 +72,13 @@ public class ProductoServiceImpl implements ProductoService {
         productoMapper.actualizarEntidadDesdeDTO(p, dto, b);
         Producto p_actualizado = productoRepository.save(p);
 
-        BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(b, dtoUsuario);
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.UPDATE,
+                        valorAnterior,
+                        "nombre=" + p_actualizado.getNombre() + ", stock=" + p_actualizado.getStock(),
+                        responsable.getId()));
 
+        BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(b, dtoUsuario);
         return productoMapper.entidadADTO(p_actualizado, dtoBodega);
     }
 
@@ -92,17 +108,21 @@ public class ProductoServiceImpl implements ProductoService {
 
         BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(
                 bodegaRepository.findById(p.getBodega().getId())
-                        .orElseThrow(() -> new RuntimeException("Error: no existe la bodega")),
-                dtoUsuario);
+                        .orElseThrow(() -> new RuntimeException("Error: no existe la bodega")), dtoUsuario);
 
         return productoMapper.entidadADTO(p, dtoBodega);
     }
 
     @Override
     public void eliminarProducto(Long id) {
-        if (!productoRepository.existsById(id)) {
-            throw new EntityNotFoundException("Error: no existe el Producto a eliminar");
-        }
+        Producto p = productoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Error: no existe el Producto a eliminar"));
+
+        String valorAnterior = "id=" + id + ", nombre=" + p.getNombre() + ", stock=" + p.getStock();
         productoRepository.deleteById(id);
+
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.DELETE,
+                        valorAnterior, null, responsable.getId()));
     }
 }

@@ -4,6 +4,7 @@ import com.example.proyecto_logitrack.modelo.TipoMovimiento;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
+import java.util.List;
 
 public record MovimientoRequestDTO(
         @Schema(description = "Fecha del movimiento", example = "2026-03-10T10:30:00")
@@ -19,7 +20,10 @@ public record MovimientoRequestDTO(
         Long bodegaOrigenId,
 
         @Schema(description = "ID de la bodega destino", example = "2")
-        Long bodegaDestinoId
+        Long bodegaDestinoId,
+
+        //lista movimiento
+        List<MovimientoDetalleRequestDTO> detalles
 
 ) {
 }

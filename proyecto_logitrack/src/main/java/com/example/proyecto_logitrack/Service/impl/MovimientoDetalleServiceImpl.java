@@ -1,5 +1,6 @@
 package com.example.proyecto_logitrack.Service.impl;
 
+import com.example.proyecto_logitrack.Service.AuditoriaService;
 import com.example.proyecto_logitrack.Service.MovimientoDetalleService;
 import com.example.proyecto_logitrack.dto.request.MovimientoDetalleRequestDTO;
 import com.example.proyecto_logitrack.dto.response.*;
@@ -7,9 +8,11 @@ import com.example.proyecto_logitrack.exception.BusinessRuleException;
 import com.example.proyecto_logitrack.mapper.*;
 import com.example.proyecto_logitrack.modelo.Movimiento;
 import com.example.proyecto_logitrack.modelo.MovimientoDetalle;
+import com.example.proyecto_logitrack.modelo.Operacion;
 import com.example.proyecto_logitrack.modelo.Producto;
 import com.example.proyecto_logitrack.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
     private final MovimientoDetalleRepository movimientoDetalleRepository;
     private final MovimientoDetalleMapper movimientoDetalleMapper;
@@ -28,6 +32,7 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
     private final BodegaMapper bodegaMapper;
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final AuditoriaService auditoriaService;
     @Override
     public MovimientoDetalleResponseDTO crearMovimientoDetalle(MovimientoDetalleRequestDTO dto) {
         Movimiento movimiento = movimientoRepository.findById(dto.movimientoId())
@@ -71,8 +76,13 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
                         .orElseThrow(() -> new RuntimeException("Error: no existe la bodega del producto")), dtoUsuarioBodega);
 
         ProductoResponseDTO dtoProducto = productoMapper.entidadADTO(producto, dtoBodegaProducto);
+        auditoriaService.registrar("movimiento_detalle", Operacion.INSERT, null,
+                "id=" + md_insertado.getId() + ", cantidad=" + md_insertado.getCantidad() +
+                        ", producto=" + producto.getNombre() + ", movimiento=" + movimiento.getId(),
+                movimiento.getUsuario().getId());
 
         return movimientoDetalleMapper.entidadADTO(md_insertado, dtoMovimiento, dtoProducto);
+
     }
 
     @Override
@@ -89,6 +99,7 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
         movimientoDetalleMapper.actualizarEntidadDesdeDTO(md, dto, movimiento, producto);
 
         MovimientoDetalle md_actualizado = movimientoDetalleRepository.save(md);
+        
 
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
                 usuarioRepository.findById(movimiento.getUsuario().getId())
@@ -194,9 +205,15 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
 
     @Override
     public void eliminarMovimientoDetalle(Long id) {
-        if (!movimientoDetalleRepository.existsById(id)) {
-            throw new EntityNotFoundException("Error: no existe el MovimientoDetalle a eliminar");
-        }
+        MovimientoDetalle md = movimientoDetalleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Error: no existe el MovimientoDetalle a eliminar"));
+
+        auditoriaService.registrar("movimiento_detalle", Operacion.DELETE,
+                "id=" + id + ", cantidad=" + md.getCantidad() +
+                        ", producto=" + md.getProducto().getNombre(),
+                null,
+                md.getMovimiento().getUsuario().getId());
+
         movimientoDetalleRepository.deleteById(id);
     }
 }

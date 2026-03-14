@@ -29,14 +29,14 @@ public class Auditoria {
     @Column(nullable = false)
     private Date fecha;
 
-    @Column(nullable = false)
-    private String valor_anterior;
+    @Column(nullable = true)
+    private String valorAnterior;
 
-    @Column(nullable = false)
-    private String valor_nuevo;
+    @Column(nullable = true)
+    private String valorNuevo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id",nullable = false)
+    @JoinColumn(name = "usuario_id",nullable = true)
         private Usuario usuario;
 
 }

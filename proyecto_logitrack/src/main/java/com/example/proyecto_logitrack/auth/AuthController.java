@@ -8,6 +8,8 @@ import com.example.proyecto_logitrack.dto.request.UsuarioRequestDTO;
 import com.example.proyecto_logitrack.exception.BusinessRuleException;
 import com.example.proyecto_logitrack.modelo.Usuario;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+@Tag(name = "Login/Registro", description = "Permite Iniciar sesion y Registrarte")
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +27,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final UsuarioRepository usuarioRepository;
     private final UsuarioService usuarioService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody LoginRequest request) {

@@ -16,10 +16,10 @@ public record AuditoriaRequestDTO(
         Date fecha,
 
         @Schema(description = "Valor antes del cambio", example = "stock=10")
-        String valor_anterior,
+        String valorAnterior,
 
         @Schema(description = "Valor después del cambio", example = "stock=8")
-        String valor_nuevo,
+        String valorNuevo,
 
         @Schema(description = "ID del usuario que realizó la acción", example = "1")
         Long usuarioId

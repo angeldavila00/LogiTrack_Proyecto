@@ -19,7 +19,7 @@ public class UsuarioMapper {
         if (usuario == null) return null;
         return new UsuarioResponseDTO(
                 usuario.getId(),usuario.getNombre(),usuario.getDocumento(),
-                usuario.getUsername(), usuario.getPassword(), usuario.getRol()
+                usuario.getUsername(), usuario.getRol()
         );
     }
     /*DTOAentidad*/

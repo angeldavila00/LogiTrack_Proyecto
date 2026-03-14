@@ -7,7 +7,6 @@ public record UsuarioResponseDTO(
         String nombre,
         String documento,
         String username,
-        String password,
         Rol rol
 ) {
 }
