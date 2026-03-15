@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class AuditoriaServiceImpl implements AuditoriaService {
         AuditoriaRequestDTO dto = new AuditoriaRequestDTO(
                 entidad,
                 operacion,
-                new Date(),
+                LocalDateTime.now(),
                 valorAnterior,
                 valorNuevo,
                 usuarioId

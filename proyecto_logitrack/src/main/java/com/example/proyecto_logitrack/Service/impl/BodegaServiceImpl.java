@@ -12,6 +12,7 @@ import com.example.proyecto_logitrack.modelo.Bodega;
 import com.example.proyecto_logitrack.modelo.Operacion;
 import com.example.proyecto_logitrack.modelo.Usuario;
 import com.example.proyecto_logitrack.repository.BodegaRepository;
+import com.example.proyecto_logitrack.repository.ProductoRepository;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,7 @@ public class BodegaServiceImpl implements BodegaService {
     private final UsuarioMapper usuarioMapper;
     private final UsuarioRepository usuarioRepository;
     private final AuditoriaService auditoriaService;
+    private final ProductoRepository  productoRepository;
 
     @Override
     public BodegaResponseDTO crearBodega(BodegaRequestDTO dto) {
@@ -38,9 +40,12 @@ public class BodegaServiceImpl implements BodegaService {
         Bodega b = bodegaMapper.DTOAentidad(dto,u);
         Bodega b_insertada= bodegaRepository.save(b);
         UsuarioResponseDTO dtoUsuario= usuarioMapper.entidadADTO(u);
-        auditoriaService.registrar("bodega", Operacion.INSERT, null,
-                "id=" + b_insertada.getId() + ", nombre=" + b_insertada.getNombre(),
-                dto.usuarioId(),dtoUsuario.nombre());
+
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar( "bodega", Operacion.INSERT, null,
+                        "id=" + b_insertada.getId() + ", nombre=" +b_insertada.getNombre()+ ", ubicacion=" + b_insertada.getUbicacion() + ", capacidad=" + b_insertada.getCapacidad() + ", encargado=" + u.getNombre(),
+                        responsable.getId(), responsable.getNombre()));
+
         return bodegaMapper.entidadADTO(b_insertada,dtoUsuario);
     }
 
@@ -48,17 +53,20 @@ public class BodegaServiceImpl implements BodegaService {
     public BodegaResponseDTO actualizarBodega(BodegaRequestDTO dto, Long id) {
         Bodega b = bodegaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error, no existe dicha Bodega"));
-        String valorAnterior = "nombre=" + b.getNombre() + ", ubicacion=" + b.getUbicacion();
 
         Usuario u = usuarioRepository.findById(dto.usuarioId())
                 .orElseThrow(() -> new RuntimeException("Error no existe el usuario"));
+
+        String valorAnterior = "nombre=" + b.getNombre() + ", ubicacion=" + b.getUbicacion() + ", capacidad=" + b.getCapacidad() + ", encargado=" + u.getNombre();
+
+
         bodegaMapper.actualizarEntidadDesdeDTO(b, dto, u);
         Bodega b_actualizada = bodegaRepository.save(b);
 
-        auditoriaService.registrar("bodega", Operacion.UPDATE,
-                valorAnterior,
-                "nombre=" + b_actualizada.getNombre() + ", ubicacion=" + b_actualizada.getUbicacion(),
-                dto.usuarioId(), dto.nombre());
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar( "bodega", Operacion.UPDATE, valorAnterior,
+                        "Nombre=" + b_actualizada.getNombre() + ", ubicacion=" + b_actualizada.getUbicacion() + ", capacidad=" + b_actualizada.getCapacidad() + ", encargado=" + u.getNombre(),
+                        responsable.getId(), responsable.getNombre()));
 
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(u);
         return bodegaMapper.entidadADTO(b_actualizada, dtoUsuario);
@@ -82,12 +90,19 @@ public class BodegaServiceImpl implements BodegaService {
 
     @Override
     public void eliminarBodega(Long id) {
+
         Bodega bodega = bodegaRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Error: No existe la Bodega a eliminar"));
+        if (productoRepository.existsByBodegaId(id)) {
+            throw new RuntimeException("Error: no se puede eliminar la Bodega porque esta asociado a un Producto");
+        }
+
+        Usuario u = usuarioRepository.findById(bodega.getUsuario().getId()).orElseThrow(() -> new RuntimeException("Error no existe del usuario"));
 
         String valorAnterior = "id=" + id + ", nombre=" + bodega.getNombre()
                 + ", ubicacion=" + bodega.getUbicacion()
-                + ", capacidad=" + bodega.getCapacidad();
+                + ", capacidad=" + bodega.getCapacidad()
+                + ", encargado=" + u.getNombre();
         bodegaRepository.deleteById(id);
 
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())

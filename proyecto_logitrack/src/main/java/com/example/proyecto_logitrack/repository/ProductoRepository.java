@@ -7,14 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductoRepository extends JpaRepository<Producto,Long> {
-    // Buscar por nombre exacto
-    List<Producto> findByNombre(String nombre);
 
-    // Buscar por nombre parcial (útil para buscadores)
-    List<Producto> findByNombreContainingIgnoreCase(String nombre);
-
-    // Buscar por categoría
-    List<Producto> findByCategoria(String categoria);
+    boolean existsByBodegaId(Long bodegaId);
 
     // Buscar todos los productos de una bodega
     List<Producto> findByBodegaId(Long bodegaId);

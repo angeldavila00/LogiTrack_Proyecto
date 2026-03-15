@@ -12,9 +12,6 @@ public interface MovimientoDetalleRepository extends JpaRepository<MovimientoDet
     // Buscar todos los detalles que involucren un producto
     List<MovimientoDetalle> findByProductoId(Long productoId);
 
-    // Verificar si un producto está en algún movimiento (útil antes de eliminar)
-    boolean existsByProductoId(Long productoId);
 
-    // Verificar si un movimiento ya tiene detalles registrados
-    boolean existsByMovimientoId(Long movimientoId);
+    boolean existsByProductoId(Long productoId);
 }

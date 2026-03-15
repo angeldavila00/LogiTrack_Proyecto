@@ -3,6 +3,7 @@ package com.example.proyecto_logitrack.dto.request;
 import com.example.proyecto_logitrack.modelo.Rol;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UsuarioRequestDTO(
@@ -14,11 +15,13 @@ public record UsuarioRequestDTO(
 
         @Schema(description = "Se ingresa el documento de la persona",
                 example = "1007999211")
+        @NotNull(message = "no puede estar vacio.")
         String documento,
 
         @Schema(description = "Se ingresa el username",
                 example = "angel_admin")
         @NotBlank(message = "El username no puede estar vacio.")
+        @NotBlank(message = "no puede estar vacio.")
         String username,
 
         @Schema(description = "Se ingresa la contraseña",
@@ -28,6 +31,7 @@ public record UsuarioRequestDTO(
 
         @Schema(description = "Rol del usuario",
                 example = "ADMIN")
+        @NotNull(message = "no puede estar vacio.")
         Rol rol
 
 ) {}

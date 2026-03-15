@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -27,7 +28,7 @@ public class Auditoria {
     private Operacion operacion;
 
     @Column(nullable = false)
-    private Date fecha;
+    private LocalDateTime fecha;
 
     @Column(nullable = true)
     private String valorAnterior;

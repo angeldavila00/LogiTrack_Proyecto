@@ -14,6 +14,7 @@ import com.example.proyecto_logitrack.modelo.Bodega;
 import com.example.proyecto_logitrack.modelo.Operacion;
 import com.example.proyecto_logitrack.modelo.Producto;
 import com.example.proyecto_logitrack.repository.BodegaRepository;
+import com.example.proyecto_logitrack.repository.MovimientoDetalleRepository;
 import com.example.proyecto_logitrack.repository.ProductoRepository;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
 import jakarta.persistence.EntityManager;
@@ -38,6 +39,7 @@ public class ProductoServiceImpl implements ProductoService {
     private final UsuarioMapper usuarioMapper;
     private final UsuarioRepository usuarioRepository;
     private final AuditoriaService auditoriaService;
+    private final MovimientoDetalleRepository movimientoDetalleRepository;
 
     @Override
     public ProductoResponseDTO crearProducto(ProductoRequestDTO dto) {
@@ -54,7 +56,7 @@ public class ProductoServiceImpl implements ProductoService {
 
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.INSERT, null,
-                        "id=" + p_insertado.getId() + ", nombre=" + p_insertado.getNombre() + ", stock=" + p_insertado.getStock(),
+                        "id=" + p_insertado.getId() + ", nombre=" + p_insertado.getNombre() +", categoria=" + p_insertado.getCategoria() +", precio="+p_insertado.getPrecio() +", stock=" + p_insertado.getStock() +b.getNombre(),
                         responsable.getId(), responsable.getNombre()));
 
         return productoMapper.entidadADTO(p_insertado, dtoBodega);
@@ -120,11 +122,12 @@ public class ProductoServiceImpl implements ProductoService {
     public void eliminarProducto(Long id) {
         Producto p = productoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error: no existe el Producto a eliminar"));
+        if (movimientoDetalleRepository.existsByProductoId(id)) {
+            throw new RuntimeException("Error: no se puede eliminar el Producto porque tiene Movimientos asociados");
+        }
 
         String valorAnterior = "id=" + id + ", nombre=" + p.getNombre() + ", stock=" + p.getStock();
         productoRepository.deleteById(id);
-
-
 
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.DELETE,
@@ -134,8 +137,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public List<ProductoResponseDTO> listarStockBajo() {
         return productoRepository.findByStockLessThan(10).stream().map(p -> {
-            UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
-                    usuarioRepository.findById(p.getBodega().getUsuario().getId())
+            UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(usuarioRepository.findById(p.getBodega().getUsuario().getId())
                             .orElseThrow(() -> new RuntimeException("Error: no existe el usuario")));
             BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(p.getBodega(), dtoUsuario);
             return productoMapper.entidadADTO(p, dtoBodega);

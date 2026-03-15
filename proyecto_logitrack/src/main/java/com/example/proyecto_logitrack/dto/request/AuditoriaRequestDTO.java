@@ -3,6 +3,7 @@ package com.example.proyecto_logitrack.dto.request;
 import com.example.proyecto_logitrack.modelo.Operacion;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public record AuditoriaRequestDTO(
@@ -13,7 +14,7 @@ public record AuditoriaRequestDTO(
         Operacion operacion,
 
         @Schema(description = "Fecha de la operación", example = "2026-03-10T10:30:00")
-        Date fecha,
+        LocalDateTime fecha,
 
         @Schema(description = "Valor antes del cambio", example = "stock=10")
         String valorAnterior,
