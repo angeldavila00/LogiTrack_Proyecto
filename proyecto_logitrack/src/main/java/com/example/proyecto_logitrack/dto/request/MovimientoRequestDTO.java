@@ -2,12 +2,12 @@ package com.example.proyecto_logitrack.dto.request;
 
 import com.example.proyecto_logitrack.modelo.TipoMovimiento;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 import java.util.List;
 
 public record MovimientoRequestDTO(

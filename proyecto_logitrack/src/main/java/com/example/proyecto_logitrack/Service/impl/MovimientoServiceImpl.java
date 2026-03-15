@@ -40,24 +40,30 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Override
     public MovimientoResponseDTO crearMovimiento(MovimientoRequestDTO dto) {
         Usuario u = usuarioRepository.findById(dto.usuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Error: no existe el Usuario"));
         Bodega bodegaOrigen = bodegaRepository.findById(dto.bodegaOrigenId())
-                .orElseThrow(() -> new RuntimeException("Bodega origen no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Error: no existe la Bodega origen"));
         Bodega bodegaDestino = bodegaRepository.findById(dto.bodegaDestinoId())
-                .orElseThrow(() -> new RuntimeException("Bodega destino no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Error: no existe la Bodega destino"));
 
         Movimiento m = movimientoMapper.DTOAentidad(dto, u, bodegaOrigen, bodegaDestino);
         Movimiento m_insertada = movimientoRepository.save(m);
 
         if (dto.detalles() != null && !dto.detalles().isEmpty()) {
-            int stockActualBodegaDestino = productoRepository.findByBodegaId(bodegaDestino.getId())
-                    .stream().mapToInt(Producto::getStock).sum();
 
-            int totalEntrante = dto.detalles().stream()
-                    .mapToInt(MovimientoDetalleRequestDTO::cantidad).sum();
+            if (dto.tipoMovimiento() == TipoMovimiento.ENTRADA ||
+                    dto.tipoMovimiento() == TipoMovimiento.TRANSFERENCIA) {
 
-            if (stockActualBodegaDestino + totalEntrante > bodegaDestino.getCapacidad()) {
-                throw new RuntimeException("Error: la bodega destino no tiene capacidad suficiente...");
+                // cuenta productos distintos, NO suma stock
+                int productosActuales = productoRepository.findByBodegaId(bodegaDestino.getId()).size();
+                int productosEntrantes = dto.detalles().size();
+
+                if (productosActuales + productosEntrantes > bodegaDestino.getCapacidad()) {
+                    throw new RuntimeException("Error: la Bodega destino no tiene capacidad suficiente. " +
+                            "Capacidad máxima: " + bodegaDestino.getCapacidad() +
+                            ", ocupada: " + productosActuales +
+                            ", disponible: " + (bodegaDestino.getCapacidad() - productosActuales));
+                }
             }
 
             for (MovimientoDetalleRequestDTO detalleDTO : dto.detalles()) {
@@ -68,13 +74,15 @@ public class MovimientoServiceImpl implements MovimientoService {
         }
 
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(u);
-        BodegaResponseDTO dtoOrigen = bodegaMapper.entidadADTO(bodegaOrigen, dtoUsuario);
-        BodegaResponseDTO dtoDestino = bodegaMapper.entidadADTO(bodegaDestino, dtoUsuario);
+        BodegaResponseDTO dtoOrigen = bodegaMapper.entidadADTO(
+                bodegaOrigen, usuarioMapper.entidadADTO(bodegaOrigen.getUsuario()));
+        BodegaResponseDTO dtoDestino = bodegaMapper.entidadADTO(
+                bodegaDestino, usuarioMapper.entidadADTO(bodegaDestino.getUsuario()));
 
-        // ✅ usuario logueado
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("movimiento", Operacion.INSERT, null,
-                        "id=" + m_insertada.getId() + ", tipo=" + m_insertada.getTipomovimiento(),
+                        "id=" + m_insertada.getId() + ", tipo=" + m_insertada.getTipomovimiento()
+                                + ", usuario=" + u.getNombre(),
                         responsable.getId(), responsable.getNombre()));
 
         return movimientoMapper.entidadADTO(m_insertada, dtoUsuario, dtoOrigen, dtoDestino);
@@ -161,18 +169,32 @@ public class MovimientoServiceImpl implements MovimientoService {
                 + ", origen=" + movimiento.getBodegaOrigen().getNombre()
                 + ", destino=" + movimiento.getBodegaDestino().getNombre();
 
-        // Recuperar stock de cada producto antes de eliminar
         List<MovimientoDetalle> detalles = movimientoDetalleRepository.findByMovimientoId(id);
+
         for (MovimientoDetalle detalle : detalles) {
             Producto producto = detalle.getProducto();
-            producto.setStock(producto.getStock() + detalle.getCantidad());
+
+            if (movimiento.getTipomovimiento() == TipoMovimiento.ENTRADA) {
+                // Si fue ENTRADA, al eliminar se resta el stock
+                producto.setStock(producto.getStock() - detalle.getCantidad());
+
+            } else if (movimiento.getTipomovimiento() == TipoMovimiento.SALIDA) {
+                // Si fue SALIDA, al eliminar se devuelve el stock
+                producto.setStock(producto.getStock() + detalle.getCantidad());
+
+            } else if (movimiento.getTipomovimiento() == TipoMovimiento.TRANSFERENCIA) {
+                // Si fue TRANSFERENCIA, al eliminar se invierte el movimiento
+                producto.setStock(producto.getStock() + detalle.getCantidad());
+            }
+
             productoRepository.save(producto);
         }
+        if (!detalles.isEmpty()) {
+            throw new RuntimeException("Error: no se puede eliminar el Movimiento porque tiene Detalles asociados.");
+        }
 
-        movimientoDetalleRepository.deleteAll(detalles);
         movimientoRepository.delete(movimiento);
 
-        // ✅ usuario logueado — registrar después de eliminar
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("movimiento", Operacion.DELETE,
                         valorAnterior, null, responsable.getId(), responsable.getNombre()));
