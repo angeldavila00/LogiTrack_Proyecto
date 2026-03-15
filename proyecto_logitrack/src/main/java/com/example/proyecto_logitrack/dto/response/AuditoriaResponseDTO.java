@@ -7,6 +7,6 @@ import java.util.Date;
 public record AuditoriaResponseDTO(
         Long id, String entidad, Operacion operacion,
         Date fecha,String valorAnterior,
-        String valorNuevo, UsuarioResponseDTO usuario
+        String valorNuevo,String usuarioNombre, UsuarioResponseDTO usuario
 ) {
 }

@@ -2,6 +2,7 @@ package com.example.proyecto_logitrack.Service.impl;
 
 import com.example.proyecto_logitrack.Service.AuditoriaService;
 import com.example.proyecto_logitrack.Service.MovimientoDetalleService;
+import com.example.proyecto_logitrack.config.SecurityUtils;
 import com.example.proyecto_logitrack.dto.request.MovimientoDetalleRequestDTO;
 import com.example.proyecto_logitrack.dto.response.*;
 import com.example.proyecto_logitrack.exception.BusinessRuleException;
@@ -79,7 +80,7 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
         auditoriaService.registrar("movimiento_detalle", Operacion.INSERT, null,
                 "id=" + md_insertado.getId() + ", cantidad=" + md_insertado.getCantidad() +
                         ", producto=" + producto.getNombre() + ", movimiento=" + movimiento.getId(),
-                movimiento.getUsuario().getId());
+                movimiento.getUsuario().getId(),movimiento.getUsuario().getNombre());
 
         return movimientoDetalleMapper.entidadADTO(md_insertado, dtoMovimiento, dtoProducto);
 
@@ -208,12 +209,14 @@ public class MovimientoDetalleServiceImpl implements MovimientoDetalleService {
         MovimientoDetalle md = movimientoDetalleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error: no existe el MovimientoDetalle a eliminar"));
 
-        auditoriaService.registrar("movimiento_detalle", Operacion.DELETE,
-                "id=" + id + ", cantidad=" + md.getCantidad() +
-                        ", producto=" + md.getProducto().getNombre(),
-                null,
-                md.getMovimiento().getUsuario().getId());
+        String valorAnterior = "id=" + id + ", cantidad=" + md.getCantidad() +
+                ", producto=" + md.getProducto().getNombre();
 
         movimientoDetalleRepository.deleteById(id);
+
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar("movimiento_detalle", Operacion.DELETE,
+                        valorAnterior, null,
+                        responsable.getId(), responsable.getNombre()));
     }
 }

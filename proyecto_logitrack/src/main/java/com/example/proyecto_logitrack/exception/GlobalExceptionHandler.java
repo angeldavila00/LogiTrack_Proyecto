@@ -15,17 +15,18 @@ import java.util.HashMap;
 import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+
     // Cuando no existe una respuesta 404
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlerNotFound(EntityNotFoundException ex){
+    public ResponseEntity<ErrorResponse> handlerNotFound(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(
                         LocalDateTime.now(),
                         HttpStatus.NOT_FOUND.value(),
-                        ex.getMessage() /*o cualquier mensaje*/,
+                        ex.getMessage(),
                         "RESOURCE_NOT_FOUND / Recurso no encontrado"));
     }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
@@ -35,7 +36,6 @@ public class GlobalExceptionHandler {
         response.put("errorCode", "VALIDATION_FAILED");
 
         Map<String, String> errors = new HashMap<>();
-
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
@@ -43,26 +43,41 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // Captura cualquier excepción no controlada previamente (error 500)
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericErrors(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error interno del servidor", "INTERNAL_SERVER_ERROR")
-        );
-    }
-
-    //Usado para cuando sucede una regla de negocio, ejemplo: total negativo,
-    //stock superior al que existe.
+    // Usado para cuando sucede una regla de negocio, ejemplo: total negativo,
+    // stock superior al que existe.
     @ExceptionHandler(BusinessRuleException.class)
     public ResponseEntity<ErrorResponse> handleBusinessRuleException(BusinessRuleException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), "BUSINESS_RULE_VIOLATION")
+                new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), "stock superior al que existe")
         );
     }
 
-    //Usado cuando no existe una ruta correcta en la solicitud HTTP.
-    //Requiere configuracion adicional en la application.properties.
-    //Usada solo cuando la ruta no conoce el controller: localhost:8080/api/wwww
+    // RuntimeException: errores del servicio como eliminar usuario con bodegas asociadas,
+    // eliminar único usuario, etc.
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ErrorResponse(
+                        LocalDateTime.now(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        ex.getMessage(),
+                        "BUSINESS_RULE_VIOLATION")
+        );
+    }
+
+    // Útil cuando deseamos que se sepa que el DTO o json esta incompleto.
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleParsingErrors(HttpMessageNotReadableException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+                        "El cuerpo de la solicitud no es válido.",
+                        "BAD_REQUEST")
+        );
+    }
+
+    // Usado cuando no existe una ruta correcta en la solicitud HTTP.
+    // Requiere configuracion adicional en la application.properties.
+    // Usada solo cuando la ruta no conoce el controller: localhost:8080/api/wwww
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(NoHandlerFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -75,13 +90,14 @@ public class GlobalExceptionHandler {
         );
     }
 
-    //Útil cuando deseamos que se sepa que el DTO o json esta incompleto.
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleParsingErrors(HttpMessageNotReadableException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
-                        "El cuerpo de la solicitud no es válido.",
-                        "BAD_REQUEST")
+    // Captura cualquier excepción no controlada previamente (error 500)
+    // Siempre debe ir de último
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericErrors(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error interno del servidor", "INTERNAL_SERVER_ERROR")
         );
     }
+
+
 }

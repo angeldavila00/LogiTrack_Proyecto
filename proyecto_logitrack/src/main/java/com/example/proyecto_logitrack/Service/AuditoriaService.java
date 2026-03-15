@@ -9,5 +9,6 @@ import java.util.List;
 public interface AuditoriaService {
     List<AuditoriaResponseDTO> listarAuditorias();
     AuditoriaResponseDTO buscarPorId(Long id);
- void registrar(String entidad, Operacion operacion, String valorAnterior, String valorNuevo, Long usuarioId);
+    void registrar(String entidad, Operacion operacion, String valorAnterior,
+                   String valorNuevo, Long usuarioId, String usuarioNombre);
 }

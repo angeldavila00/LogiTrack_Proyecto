@@ -39,4 +39,7 @@ public class Auditoria {
     @JoinColumn(name = "usuario_id",nullable = true)
         private Usuario usuario;
 
+    @Column( nullable = true)
+    private String usuarioNombre;
+
 }

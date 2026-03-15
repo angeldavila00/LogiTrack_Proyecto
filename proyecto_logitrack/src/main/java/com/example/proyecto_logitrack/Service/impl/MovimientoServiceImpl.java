@@ -75,7 +75,7 @@ public class MovimientoServiceImpl implements MovimientoService {
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("movimiento", Operacion.INSERT, null,
                         "id=" + m_insertada.getId() + ", tipo=" + m_insertada.getTipomovimiento(),
-                        responsable.getId()));
+                        responsable.getId(), responsable.getNombre()));
 
         return movimientoMapper.entidadADTO(m_insertada, dtoUsuario, dtoOrigen, dtoDestino);
     }
@@ -108,7 +108,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                         valorAnterior,
                         "tipo=" + m_actualizado.getTipomovimiento() + ", origen=" + bodegaOrigen.getNombre()
                                 + ", destino=" + bodegaDestino.getNombre(),
-                        responsable.getId()));
+                        responsable.getId(), responsable.getNombre()));
 
         return movimientoMapper.entidadADTO(m_actualizado, dtoUsuario, dtoOrigen, dtoDestino);
     }
@@ -175,6 +175,6 @@ public class MovimientoServiceImpl implements MovimientoService {
         // ✅ usuario logueado — registrar después de eliminar
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("movimiento", Operacion.DELETE,
-                        valorAnterior, null, responsable.getId()));
+                        valorAnterior, null, responsable.getId(), responsable.getNombre()));
     }
 }

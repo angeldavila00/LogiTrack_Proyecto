@@ -88,6 +88,7 @@ CREATE TABLE auditoria (
     valor_anterior VARCHAR(255),
     valor_nuevo VARCHAR(255),
     usuario_id INT,
+    usuario_nombre VARCHAR(100) NULL,
     
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );

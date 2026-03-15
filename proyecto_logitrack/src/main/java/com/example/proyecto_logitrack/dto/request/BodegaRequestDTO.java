@@ -2,6 +2,7 @@ package com.example.proyecto_logitrack.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record BodegaRequestDTO (
@@ -12,6 +13,7 @@ public record BodegaRequestDTO (
         @NotBlank(message = "La ubicacion no puede estar vacia.")
         String ubicacion,
         @Positive(message = "Error, la capacidad debe ser positiva")
+        @NotNull(message = "La capacidad no puede ser nula.")
         Integer capacidad,
         Long usuarioId
         ){

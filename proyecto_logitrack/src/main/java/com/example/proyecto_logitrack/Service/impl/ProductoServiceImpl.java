@@ -16,7 +16,10 @@ import com.example.proyecto_logitrack.modelo.Producto;
 import com.example.proyecto_logitrack.repository.BodegaRepository;
 import com.example.proyecto_logitrack.repository.ProductoRepository;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,7 +55,7 @@ public class ProductoServiceImpl implements ProductoService {
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.INSERT, null,
                         "id=" + p_insertado.getId() + ", nombre=" + p_insertado.getNombre() + ", stock=" + p_insertado.getStock(),
-                        responsable.getId()));
+                        responsable.getId(), responsable.getNombre()));
 
         return productoMapper.entidadADTO(p_insertado, dtoBodega);
     }
@@ -76,7 +79,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.UPDATE,
                         valorAnterior,
                         "nombre=" + p_actualizado.getNombre() + ", stock=" + p_actualizado.getStock(),
-                        responsable.getId()));
+                        responsable.getId(), responsable.getNombre()));
 
         BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(b, dtoUsuario);
         return productoMapper.entidadADTO(p_actualizado, dtoBodega);
@@ -121,8 +124,23 @@ public class ProductoServiceImpl implements ProductoService {
         String valorAnterior = "id=" + id + ", nombre=" + p.getNombre() + ", stock=" + p.getStock();
         productoRepository.deleteById(id);
 
+
+
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.DELETE,
-                        valorAnterior, null, responsable.getId()));
+                        valorAnterior, null, responsable.getId(), responsable.getNombre()));
     }
+
+    @Override
+    public List<ProductoResponseDTO> listarStockBajo() {
+        return productoRepository.findByStockLessThan(10).stream().map(p -> {
+            UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
+                    usuarioRepository.findById(p.getBodega().getUsuario().getId())
+                            .orElseThrow(() -> new RuntimeException("Error: no existe el usuario")));
+            BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(p.getBodega(), dtoUsuario);
+            return productoMapper.entidadADTO(p, dtoBodega);
+        }).toList();
+    }
+
+
 }

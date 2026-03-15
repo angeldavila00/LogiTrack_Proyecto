@@ -18,7 +18,9 @@ public class AuditoriaMapper {
                 auditoria.getId(),auditoria.getEntidad(),
                 auditoria.getOperacion(),
                 auditoria.getFecha(), auditoria.getValorAnterior(),
-                auditoria.getValorNuevo(),dto
+                auditoria.getValorNuevo(),
+                auditoria.getUsuarioNombre(),
+                dto
         );
     }
 
@@ -33,6 +35,7 @@ public class AuditoriaMapper {
         auditoria.setValorAnterior(dto.valorAnterior());
         auditoria.setValorNuevo(dto.valorNuevo());
         auditoria.setUsuario(usuario);
+        auditoria.setUsuarioNombre(usuario.getNombre());
         return auditoria;
     }
 
@@ -45,6 +48,7 @@ public class AuditoriaMapper {
         auditoria.setFecha(dto.fecha());
         auditoria.setValorAnterior(dto.valorAnterior());
         auditoria.setValorNuevo(dto.valorNuevo());
+        auditoria.setUsuarioNombre(usuario.getNombre());
         auditoria.setUsuario(usuario);
     }
 }

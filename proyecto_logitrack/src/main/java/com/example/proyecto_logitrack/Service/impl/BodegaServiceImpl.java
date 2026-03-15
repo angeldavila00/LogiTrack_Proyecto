@@ -2,6 +2,7 @@ package com.example.proyecto_logitrack.Service.impl;
 
 import com.example.proyecto_logitrack.Service.AuditoriaService;
 import com.example.proyecto_logitrack.Service.BodegaService;
+import com.example.proyecto_logitrack.config.SecurityUtils;
 import com.example.proyecto_logitrack.dto.request.BodegaRequestDTO;
 import com.example.proyecto_logitrack.dto.response.BodegaResponseDTO;
 import com.example.proyecto_logitrack.dto.response.UsuarioResponseDTO;
@@ -39,7 +40,7 @@ public class BodegaServiceImpl implements BodegaService {
         UsuarioResponseDTO dtoUsuario= usuarioMapper.entidadADTO(u);
         auditoriaService.registrar("bodega", Operacion.INSERT, null,
                 "id=" + b_insertada.getId() + ", nombre=" + b_insertada.getNombre(),
-                dto.usuarioId());
+                dto.usuarioId(),dtoUsuario.nombre());
         return bodegaMapper.entidadADTO(b_insertada,dtoUsuario);
     }
 
@@ -57,7 +58,7 @@ public class BodegaServiceImpl implements BodegaService {
         auditoriaService.registrar("bodega", Operacion.UPDATE,
                 valorAnterior,
                 "nombre=" + b_actualizada.getNombre() + ", ubicacion=" + b_actualizada.getUbicacion(),
-                dto.usuarioId());
+                dto.usuarioId(), dto.nombre());
 
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(u);
         return bodegaMapper.entidadADTO(b_actualizada, dtoUsuario);
@@ -81,9 +82,17 @@ public class BodegaServiceImpl implements BodegaService {
 
     @Override
     public void eliminarBodega(Long id) {
-        if(!bodegaRepository.existsById(id)){
-            throw new EntityNotFoundException("Error: No existe la Bodega a eliminar");
-        }
+        Bodega bodega = bodegaRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Error: No existe la Bodega a eliminar"));
+
+        String valorAnterior = "id=" + id + ", nombre=" + bodega.getNombre()
+                + ", ubicacion=" + bodega.getUbicacion()
+                + ", capacidad=" + bodega.getCapacidad();
         bodegaRepository.deleteById(id);
+
+        usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
+                .ifPresent(responsable -> auditoriaService.registrar("bodega", Operacion.DELETE,
+                        valorAnterior, null, responsable.getId(), responsable.getNombre()));
+
     }
 }

@@ -62,7 +62,7 @@ public class AuditoriaServiceImpl implements AuditoriaService {
 
 
     @Override
-    public void registrar(String entidad, Operacion operacion, String valorAnterior, String valorNuevo, Long usuarioId) {
+    public void registrar(String entidad, Operacion operacion, String valorAnterior, String valorNuevo, Long usuarioId, String usuarioNombre) {
         Usuario u = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Error: no existe el usuario"));
 
@@ -76,6 +76,7 @@ public class AuditoriaServiceImpl implements AuditoriaService {
         );
 
         Auditoria a = auditoriaMapper.DTOAentidad(dto, u);
+        a.setUsuarioNombre(usuarioNombre);
         auditoriaRepository.save(a);
     }
 }
