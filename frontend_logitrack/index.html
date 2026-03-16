@@ -137,6 +137,105 @@
               <button class="btn-new" onclick="openNewModal('modal-usuario')">+ Nuevo usuario</button>
             </div>
           </div>
+          <div class="table-card">
+            <div class="loading" id="loading-usuarios"><div class="spinner"></div> Cargando...</div>
+            <table id="table-usuarios" style="display:none">
+              <thead><tr><th>ID</th><th>Nombre completo</th><th>Documento</th><th>Usuario</th><th>Rol</th><th>Acciones</th></tr></thead>
+              <tbody id="tbody-usuarios"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="page-bodegas" class="page">
+          <div class="page-header">
+            <div class="page-title">Bodegas registradas</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="number" id="buscar-id-bodegas" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('bodegas',this.value)">
+              <button onclick="limpiarBusqueda('bodegas')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+              <button class="btn-new" onclick="openNewModal('modal-bodega')">+ Nueva bodega</button>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="loading" id="loading-bodegas"><div class="spinner"></div> Cargando...</div>
+            <table id="table-bodegas" style="display:none">
+              <thead><tr><th>ID</th><th>Nombre</th><th>Ubicación</th><th>Capacidad</th><th>Encargado</th><th>Acciones</th></tr></thead>
+              <tbody id="tbody-bodegas"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="page-productos" class="page">
+          <div class="page-header">
+            <div class="page-title">Inventario de productos</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <input type="number" id="buscar-id-productos" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('productos',this.value)">
+              <button onclick="limpiarBusqueda('productos')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+              <button id="btn-stock-bajo" onclick="toggleStockBajo()" style="border:1px solid var(--amber);border-radius:7px;padding:7px 14px;font-family:var(--sans);font-size:13px;background:var(--amber-bg);cursor:pointer;color:var(--amber);font-weight:500">⚠ Stock bajo</button>
+              <button class="btn-new" onclick="openNewModal('modal-producto')">+ Nuevo producto</button>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="loading" id="loading-productos"><div class="spinner"></div> Cargando...</div>
+            <table id="table-productos" style="display:none">
+              <thead><tr><th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Bodega</th><th>Ubicación bodega</th><th>Encargado</th><th>Acciones</th></tr></thead>
+              <tbody id="tbody-productos"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="page-movimientos" class="page">
+          <div class="page-header">
+            <div class="page-title">Registro de movimientos</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="number" id="buscar-id-movimientos" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('movimientos',this.value)">
+              <button onclick="limpiarBusqueda('movimientos')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+              <button class="btn-new" onclick="openModal('modal-movimiento')">+ Nuevo movimiento</button>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="loading" id="loading-movimientos"><div class="spinner"></div> Cargando...</div>
+            <table id="table-movimientos" style="display:none">
+              <thead><tr><th>ID</th><th>Fecha</th><th>Tipo</th><th>Usuario</th><th>Bodega origen</th><th>Bodega destino</th><th>Acciones</th></tr></thead>
+              <tbody id="tbody-movimientos"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="page-detalles" class="page">
+          <div class="page-header">
+            <div class="page-title">Detalle de movimientos</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="number" id="buscar-id-detalles" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('detalles',this.value)">
+              <button onclick="limpiarBusqueda('detalles')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+              <button class="btn-new" onclick="openModal('modal-detalle')">+ Nuevo detalle</button>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="loading" id="loading-detalles"><div class="spinner"></div> Cargando...</div>
+            <table id="table-detalles" style="display:none">
+              <thead><tr><th>ID</th><th>Cantidad</th><th>Tipo mov.</th><th>Fecha mov.</th><th>Producto</th><th>Categoría</th><th>Stock actual</th><th>Acciones</th></tr></thead>
+              <tbody id="tbody-detalles"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="page-auditoria" class="page">
+          <div class="page-header">
+            <div class="page-title">Registro de auditoría</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+            <input type="number" id="auditoria-buscar-id" placeholder="Buscar por ID..."
+              style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;width:160px"
+              oninput="filtrarAuditoria()">
+            <select id="auditoria-filtro-entidad" onchange="filtrarAuditoria()"
+              style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;background:var(--white)">
+              <option value="">Todas las entidades</option>
+              <option value="usuario">Usuario</option>
+              <option value="bodega">Bodega</option>
+              <option value="producto">Producto</option>
+              <option value="movimiento">Movimiento</option>
+              <option value="movimiento_detalle">Detalle movimiento</option>
+            </select>
 
 
 
