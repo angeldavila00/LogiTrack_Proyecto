@@ -7,6 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-panel">
+    <div class="lp-logo">
+      <div class="lp-logo-mark" style="display:grid;place-items:center"><svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+      <div class="lp-logo-text">Logi<span>Track</span></div>
+    </div>
+    <div class="lp-headline">Gestión logística empresarial centralizada</div>
+    <div class="lp-desc">Controle bodegas, inventario y movimientos de mercancía desde un único panel de administración.</div>
+    <ul class="lp-features">
+      <li>Gestión de bodegas y encargados</li>
+      <li>Control de inventario en tiempo real</li>
+      <li>Registro de entradas, salidas y transferencias</li>
+      <li>Trazabilidad completa con auditoría</li>
+    </ul>
+    <div class="lp-footer">© 2025 LogiTrack · Sistema de Logística</div>
+  </div>
+  <div class="login-form-wrap">
+    <div class="login-card">
+
+ <!-- TABS -->
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Iniciar sesión</div>
+        <div class="auth-tab" id="tab-registro" onclick="switchTab('registro')">Crear cuenta</div>
+      </div>
     <script src="app.js"></script>
 </body>
 </html>
