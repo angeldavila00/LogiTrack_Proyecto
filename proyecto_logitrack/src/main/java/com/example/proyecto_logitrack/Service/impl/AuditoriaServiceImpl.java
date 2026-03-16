@@ -33,7 +33,7 @@ public class AuditoriaServiceImpl implements AuditoriaService {
     @Override
     public List<AuditoriaResponseDTO> listarAuditorias() {
         return auditoriaRepository.findAll().stream().map(dato -> {
-            // ✅ Si el usuario fue eliminado, usuario queda null
+
             UsuarioResponseDTO dtoUsuario = null;
             if (dato.getUsuario() != null) {
                 dtoUsuario = usuarioMapper.entidadADTO(
@@ -49,7 +49,7 @@ public class AuditoriaServiceImpl implements AuditoriaService {
         Auditoria a = auditoriaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error: no existe dicha Auditoria"));
 
-        // ✅ Si el usuario fue eliminado, usuario queda null
+
         UsuarioResponseDTO dtoUsuario = null;
         if (a.getUsuario() != null) {
             dtoUsuario = usuarioMapper.entidadADTO(

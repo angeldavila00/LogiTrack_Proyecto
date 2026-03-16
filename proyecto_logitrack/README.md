@@ -90,6 +90,12 @@ CREATE TABLE auditoria (
     usuario_id INT,
     usuario_nombre VARCHAR(100) NULL,
     
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE SET NULL
 );
+
+-- ==============================
+-- Usuario inicial ADMINISTRADOR
+-- ==============================
+INSERT INTO usuario (id, nombre, documento, username, password, rol)
+VALUES (11, 'admin', '1324321', 'admin', '$2a$10$XYBc.2qoVcM0JL9vY02LbOa7Adk/gv7S.R0MTDGvAK0BejwAAziGi', 'ADMIN');
 ````

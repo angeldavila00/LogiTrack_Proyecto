@@ -96,7 +96,7 @@ public class ProductoServiceImpl implements ProductoService {
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
                 .ifPresent(responsable -> auditoriaService.registrar("producto", Operacion.UPDATE,
                         valorAnterior,
-                        "nombre=" + p_actualizado.getNombre() + ", stock=" + p_actualizado.getStock(),
+                        "nombre=" + p_actualizado.getNombre() +", categoria=" + p_actualizado.getCategoria() +", precio="+p_actualizado.getPrecio() +", stock=" + p_actualizado.getStock() +b.getNombre(),
                         responsable.getId(), responsable.getNombre()));
 
         BodegaResponseDTO dtoBodega = bodegaMapper.entidadADTO(b, dtoUsuario);
