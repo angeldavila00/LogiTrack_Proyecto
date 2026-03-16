@@ -21,13 +21,8 @@
 2. [Caso de Estudio](#2-caso-de-estudio)  
 3. [Descripción del proyecto](#3-descripción-del-proyecto)  
 4. [Requerimientos funcionales del sistema](#4-requerimientos-funcionales-del-sistema)  
-5. [Estructura del proyecto](#5-estructura-del-proyecto)  
-6. [Arquitectura general del backend](#6-arquitectura-general-del-backend)  
-7. [Modelo de datos del sistema](#7-modelo-de-datos-del-sistema)  
-8. [Configuración e instalación](#8-configuración-e-instalación)  
-9. [Documentación de endpoints](#9-documentación-de-endpoints)    
-10. [Swagger y pruebas de la API](#10-swagger-y-pruebas-de-la-api)   
-11. [Conclusión](#11-conclusión)
+5. [Estructura del proyecto](#5-estructura-del-proyecto) 
+6. [Observación general](#6-observación-general) 
 
 ---
 
@@ -121,3 +116,16 @@ De manera general, el sistema permite **registrar usuarios con roles**, **gestio
 <h3 align=center>5.1 Evidencias desde Swagger UI</h3>
 
 En esta subsección se ubicarán las capturas relacionadas con la documentación interactiva de la API en Swagger UI, donde se puede observar la estructura de los endpoints disponibles, los métodos HTTP implementados y las respuestas generadas por el sistema al ejecutar las peticiones.
+
+<h3 align=center>Vista general</h3>
+
+![alt text](image.png)
+
+<h3 align=center>Respuesta obtenida desde Swagger</h3>
+
+![alt text](frontend_logitrack/img/img2.png)
+
+## 6. Observación general
+
+Las siguientes evidencias visuales se incluyen con el propósito de dejar constancia de que la API desarrollada en el proyecto **LogiTrack** fue ejecutada y probada correctamente. Estas pruebas se realizaron tanto desde la documentación interactiva generada mediante **Swagger**, lo que permitió validar cada uno de los endpoints disponibles, como desde el **frontend del sistema**, donde se comprobó la correcta integración entre la interfaz de usuario y los servicios expuestos por la API. De esta manera, se verificó el funcionamiento adecuado de las operaciones principales del sistema, incluyendo la creación, consulta, actualización y eliminación de registros en los diferentes módulos del sistema logístico.
+
