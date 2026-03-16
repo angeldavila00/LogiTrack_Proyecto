@@ -6,6 +6,7 @@ import com.example.proyecto_logitrack.config.JwtService;
 import com.example.proyecto_logitrack.dto.request.RegistroRequest;
 import com.example.proyecto_logitrack.dto.request.UsuarioRequestDTO;
 import com.example.proyecto_logitrack.exception.BusinessRuleException;
+import com.example.proyecto_logitrack.modelo.Rol;
 import com.example.proyecto_logitrack.modelo.Usuario;
 import com.example.proyecto_logitrack.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +56,7 @@ public class AuthController {
             throw new BusinessRuleException("Credenciales inválidas");
         }
 
-        String token = jwtService.generateToken(usuario.getUsername());
+        String token = jwtService.generateToken(usuario.getUsername(),usuario.getRol().name());
         return Map.of("token", token);
     }
 
@@ -82,7 +83,7 @@ public class AuthController {
                 request.documento(),
                 request.username(),
                 request.password(),
-                request.rol()
+                Rol.EMPLEADO
         ));
         return ResponseEntity.ok(Map.of("mensaje", "Usuario creado correctamente"));
     }

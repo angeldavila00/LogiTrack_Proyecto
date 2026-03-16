@@ -4,8 +4,8 @@
 -- ==========================
 -- CREAR BASE DE DATOS
 -- ==========================
-CREATE DATABASE IF NOT EXISTS logitrack_db;
-USE logitrack_db;
+CREATE DATABASE IF NOT EXISTS logitrack_davila;
+USE logitrack_davila;
 show tables;
 
 -- ==========================

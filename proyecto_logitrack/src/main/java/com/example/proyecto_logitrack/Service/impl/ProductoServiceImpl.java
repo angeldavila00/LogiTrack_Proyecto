@@ -46,6 +46,14 @@ public class ProductoServiceImpl implements ProductoService {
         Bodega b = bodegaRepository.findById(dto.bodegaId())
                 .orElseThrow(() -> new RuntimeException("Error: no existe la bodega"));
 
+        int stockActual = productoRepository.findByBodegaId(b.getId())
+                .stream().mapToInt(Producto::getStock).sum();
+
+        if (stockActual + dto.stock() > b.getCapacidad()) {
+            throw new RuntimeException("Error: stock excede maximo de stock." +
+                    "Capacidad: " + b.getCapacidad());
+        }
+
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
                 usuarioRepository.findById(b.getUsuario().getId())
                         .orElseThrow(() -> new RuntimeException("Error: no existe el usuario")));
@@ -73,6 +81,14 @@ public class ProductoServiceImpl implements ProductoService {
         UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
                 usuarioRepository.findById(b.getUsuario().getId())
                         .orElseThrow(() -> new RuntimeException("Error: no existe el usuario")));
+
+        int stockActual = productoRepository.findByBodegaId(b.getId())
+                .stream().mapToInt(Producto::getStock).sum();
+
+        if (stockActual + dto.stock() > b.getCapacidad()) {
+            throw new RuntimeException("Error: stock excede maximo de stock." +
+                    "Capacidad: " + b.getCapacidad());
+        }
 
         productoMapper.actualizarEntidadDesdeDTO(p, dto, b);
         Producto p_actualizado = productoRepository.save(p);

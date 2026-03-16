@@ -78,7 +78,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .ifPresent(responsable -> auditoriaService.registrar("usuario", Operacion.UPDATE,
                         valorAnterior,
                         "nombre=" + u_actualizada.getNombre() + ", username=" + u_actualizada.getUsername() + ", rol=" + u_actualizada.getRol(),
-                        responsable.getId(), responsable.getNombre())); // ← nombre agregado
+                        responsable.getId(), responsable.getNombre()));
 
         return usuarioMapper.entidadADTO(u_actualizada);
     }

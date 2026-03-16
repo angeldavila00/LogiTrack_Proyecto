@@ -174,25 +174,19 @@ public class MovimientoServiceImpl implements MovimientoService {
         for (MovimientoDetalle detalle : detalles) {
             Producto producto = detalle.getProducto();
 
-            if (movimiento.getTipomovimiento() == TipoMovimiento.ENTRADA) {
-                // Si fue ENTRADA, al eliminar se resta el stock
-                producto.setStock(producto.getStock() - detalle.getCantidad());
-
-            } else if (movimiento.getTipomovimiento() == TipoMovimiento.SALIDA) {
-                // Si fue SALIDA, al eliminar se devuelve el stock
-                producto.setStock(producto.getStock() + detalle.getCantidad());
-
-            } else if (movimiento.getTipomovimiento() == TipoMovimiento.TRANSFERENCIA) {
-                // Si fue TRANSFERENCIA, al eliminar se invierte el movimiento
-                producto.setStock(producto.getStock() + detalle.getCantidad());
+            switch (movimiento.getTipomovimiento()) {
+                case ENTRADA ->
+                    // ENTRADA sumó stock al crearse → al eliminar se resta
+                        producto.setStock(producto.getStock() - detalle.getCantidad());
+                case SALIDA, TRANSFERENCIA ->
+                    // SALIDA/TRANSFERENCIA restó stock al crearse → al eliminar se devuelve
+                        producto.setStock(producto.getStock() + detalle.getCantidad());
             }
-
             productoRepository.save(producto);
         }
-        if (!detalles.isEmpty()) {
-            throw new RuntimeException("Error: no se puede eliminar el Movimiento porque tiene Detalles asociados.");
-        }
 
+        // ✅ Primero eliminar detalles, luego el movimiento (FK constraint)
+        movimientoDetalleRepository.deleteAll(detalles);
         movimientoRepository.delete(movimiento);
 
         usuarioRepository.findByUsername(SecurityUtils.getUsuarioActual())
