@@ -119,7 +119,9 @@ En esta subsección se ubicarán las capturas relacionadas con la documentación
 
 <h3 align=center>Vista general</h3>
 
-![alt text](image.png)
+http://localhost:8080/swagger-ui/index.html#/
+
+![alt text](frontend_logitrack/img/image.png)
 
 <h3 align=center>Respuesta obtenida desde Swagger</h3>
 

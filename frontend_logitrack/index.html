@@ -1,378 +1,566 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogiTrack-web</title>
-    <link rel="stylesheet" href="/frontend_logitrack/style.css">
-</head>
-<body>
-    <!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-panel">
-    <div class="lp-logo">
-      <div class="lp-logo-mark" style="display:grid;place-items:center"><svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-      <div class="lp-logo-text">Logi<span>Track</span></div>
-    </div>
-    <div class="lp-headline">Gestión logística empresarial centralizada</div>
-    <div class="lp-desc">Controle bodegas, inventario y movimientos de mercancía desde un único panel de administración.</div>
-    <ul class="lp-features">
-      <li>Gestión de bodegas y encargados</li>
-      <li>Control de inventario en tiempo real</li>
-      <li>Registro de entradas, salidas y transferencias</li>
-      <li>Trazabilidad completa con auditoría</li>
-    </ul>
-    <div class="lp-footer">© 2026 LogiTrack · Sistema de Logística</div>
-  </div>
-  <div class="login-form-wrap">
-    <div class="login-card">
 
- <!-- TABS -->
-      <div class="auth-tabs">
-        <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Iniciar sesión</div>
-        <div class="auth-tab" id="tab-registro" onclick="switchTab('registro')">Crear cuenta</div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiTrack-web</title>
+  <link rel="stylesheet" href="/frontend_logitrack/style.css">
+</head>
+
+<body>
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-panel">
+      <div class="lp-logo">
+        <div class="lp-logo-mark" style="display:grid;place-items:center"><svg width="18" height="18" fill="none"
+            stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg></div>
+        <div class="lp-logo-text">Logi<span>Track</span></div>
       </div>
-<!-- PANEL: LOGIN -->
-      <div class="auth-panel active" id="panel-login">
-        <div class="login-card-title">Bienvenido de nuevo</div>
-        <div class="login-card-sub" style="margin-bottom:22px">Ingrese sus credenciales para acceder al sistema</div>
-        <div class="field"><label>Usuario</label><input type="text" id="login-username" placeholder="Nombre de usuario" /></div>
-        <div class="field"><label>Contraseña</label><input type="password" id="login-password" placeholder="Contraseña" /></div>
-        <button class="btn-login" onclick="doLogin()">Ingresar al sistema</button>
-        <div class="login-error" id="login-error">Usuario o contraseña incorrectos.</div>
+      <div class="lp-headline">Gestión logística empresarial centralizada</div>
+      <div class="lp-desc">Controle bodegas, inventario y movimientos de mercancía desde un único panel de
+        administración.</div>
+      <ul class="lp-features">
+        <li>Gestión de bodegas y encargados</li>
+        <li>Control de inventario en tiempo real</li>
+        <li>Registro de entradas, salidas y transferencias</li>
+        <li>Trazabilidad completa con auditoría</li>
+      </ul>
+      <div class="lp-footer">© 2026 LogiTrack · Sistema de Logística</div>
+    </div>
+    <div class="login-form-wrap">
+      <div class="login-card">
+
+        <!-- TABS -->
+        <div class="auth-tabs">
+          <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Iniciar sesión</div>
+          <div class="auth-tab" id="tab-registro" onclick="switchTab('registro')">Crear cuenta</div>
+        </div>
+        <!-- PANEL: LOGIN -->
+        <div class="auth-panel active" id="panel-login">
+          <div class="login-card-title">Bienvenido de nuevo</div>
+          <div class="login-card-sub" style="margin-bottom:22px">Ingrese sus credenciales para acceder al sistema</div>
+          <div class="field"><label>Usuario</label><input type="text" id="login-username"
+              placeholder="Nombre de usuario" /></div>
+          <div class="field"><label>Contraseña</label><input type="password" id="login-password"
+              placeholder="Contraseña" /></div>
+          <button class="btn-login" onclick="doLogin()">Ingresar al sistema</button>
+          <div class="login-error" id="login-error">Usuario o contraseña incorrectos.</div>
+        </div>
+        <!-- PANEL: REGISTRO -->
+        <div class="auth-panel" id="panel-registro">
+          <div class="login-card-title">Crear cuenta</div>
+          <div class="login-card-sub" style="margin-bottom:22px">Complete el formulario para registrarse en el sistema
+          </div>
+          <div class="field"><label>Nombre completo</label><input type="text" id="reg-nombre"
+              placeholder="Ej: Juan Pérez" /></div>
+          <div class="field"><label>Número de documento</label><input type="text" id="reg-documento"
+              placeholder="Ej: 1234567890" /></div>
+          <div class="field"><label>Nombre de usuario</label><input type="text" id="reg-username"
+              placeholder="Ej: jperez" /></div>
+          <div class="field"><label>Contraseña</label><input type="password" id="reg-password"
+              placeholder="Mínimo 6 caracteres" /></div>
+          <div class="field"><label>Confirmar contraseña</label><input type="password" id="reg-password2"
+              placeholder="Repita la contraseña" /></div>
+          <div class="field"><label>Rol</label>
+            <select id="reg-rol">
+              <option value="EMPLEADO" selected>Empleado</option>
+            </select>
+          </div>
+          <button class="btn-register" onclick="doRegistro()">Crear cuenta</button>
+          <div class="login-error" id="registro-error"></div>
+          <div class="login-success" id="registro-success">Cuenta creada correctamente. Ya puedes iniciar sesión.</div>
+        </div>
+
       </div>
-      <!-- PANEL: REGISTRO -->
-      <div class="auth-panel" id="panel-registro">
-        <div class="login-card-title">Crear cuenta</div>
-        <div class="login-card-sub" style="margin-bottom:22px">Complete el formulario para registrarse en el sistema</div>
-        <div class="field"><label>Nombre completo</label><input type="text" id="reg-nombre" placeholder="Ej: Juan Pérez" /></div>
-        <div class="field"><label>Número de documento</label><input type="text" id="reg-documento" placeholder="Ej: 1234567890" /></div>
-        <div class="field"><label>Nombre de usuario</label><input type="text" id="reg-username" placeholder="Ej: jperez" /></div>
-        <div class="field"><label>Contraseña</label><input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" /></div>
-        <div class="field"><label>Confirmar contraseña</label><input type="password" id="reg-password2" placeholder="Repita la contraseña" /></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <!-- Overlay para cerrar sidebar en móvil -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div id="dashboard">
+    <div class="layout">
+      <nav class="sidebar">
+        <div class="sb-header">
+          <div class="sb-logo-mark" style="display:grid;place-items:center"><svg width="18" height="18" fill="none"
+              stroke="white" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+              <line x1="12" y1="22.08" x2="12" y2="12" />
+            </svg></div>
+          <div class="sb-logo-text">Logi<span>Track</span></div>
+        </div>
+        <div class="sb-section">Módulos</div>
+        <div class="sb-item active" onclick="navigate('usuarios',this)"><span class="sb-icon"><svg width="16"
+              height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg></span> Usuarios</div>
+        <div class="sb-item" onclick="navigate('bodegas',this)"><span class="sb-icon"><svg width="16" height="16"
+              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg></span> Bodegas</div>
+        <div class="sb-item" onclick="navigate('productos',this)"><span class="sb-icon"><svg width="16" height="16"
+              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+              <line x1="12" y1="22.08" x2="12" y2="12" />
+            </svg></span> Productos</div>
+        <div class="sb-item" onclick="navigate('movimientos',this)"><span class="sb-icon"><svg width="16" height="16"
+              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="17 1 21 5 17 9" />
+              <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+              <polyline points="7 23 3 19 7 15" />
+              <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+            </svg></span> Movimientos</div>
+        <div class="sb-item" onclick="navigate('detalles',this)"><span class="sb-icon"><svg width="16" height="16"
+              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg></span> Detalle Movimientos</div>
+        <div class="sb-item" onclick="navigate('auditoria',this)"><span class="sb-icon"><svg width="16" height="16"
+              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg></span> Auditoría</div>
+        <div class="sb-footer">
+          <div class="sb-user">
+            <div class="sb-avatar" id="user-avatar">A</div>
+            <div class="sb-user-info">
+              <div class="sb-user-name" id="user-display">admin</div>
+              <div class="sb-user-role">Sesión activa</div>
+            </div>
+            <button class="btn-logout" title="Cerrar sesión" onclick="doLogout()"><svg width="14" height="14"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg></button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="main">
+        <div class="topbar">
+          <button class="btn-hamburger" onclick="toggleSidebar()" aria-label="Menú">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <div class="topbar-title" id="topbar-title">Usuarios del sistema</div>
+          <div class="topbar-date" id="topbar-date"></div>
+        </div>
+        <div class="content">
+
+          <div class="stats-row" id="stats-row" style="display:none">
+            <div class="stat-card" style="border-left:3px solid var(--blue)">
+              <div class="stat-card-label">Usuarios</div>
+              <div class="stat-card-value" id="stat-usuarios">—</div>
+              <div class="stat-card-sub">Registrados en el sistema</div>
+            </div>
+            <div class="stat-card" style="border-left:3px solid #8B5CF6">
+              <div class="stat-card-label">Bodegas</div>
+              <div class="stat-card-value" id="stat-bodegas">—</div>
+              <div class="stat-card-sub">Almacenes activos</div>
+            </div>
+            <div class="stat-card" style="border-left:3px solid var(--green)">
+              <div class="stat-card-label">Productos</div>
+              <div class="stat-card-value" id="stat-productos">—</div>
+              <div class="stat-card-sub">Ítems en inventario</div>
+            </div>
+            <div class="stat-card" style="border-left:3px solid var(--amber)">
+              <div class="stat-card-label">Movimientos</div>
+              <div class="stat-card-value" id="stat-movimientos">—</div>
+              <div class="stat-card-sub">Transacciones totales</div>
+            </div>
+          </div>
+
+          <div id="page-usuarios" class="page active">
+            <div class="page-header">
+              <div class="page-title">Usuarios del sistema</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="buscar-id-usuarios" placeholder="Buscar por ID..."
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px"
+                  oninput="buscarPorId('usuarios',this.value)">
+                <button onclick="limpiarBusqueda('usuarios')"
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+                <button class="btn-new" onclick="openNewModal('modal-usuario')">+ Nuevo usuario</button>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="loading" id="loading-usuarios">
+                <div class="spinner"></div> Cargando...
+              </div>
+              <table id="table-usuarios" style="display:none">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre completo</th>
+                    <th>Documento</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-usuarios"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="page-bodegas" class="page">
+            <div class="page-header">
+              <div class="page-title">Bodegas registradas</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="buscar-id-bodegas" placeholder="Buscar por ID..."
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px"
+                  oninput="buscarPorId('bodegas',this.value)">
+                <button onclick="limpiarBusqueda('bodegas')"
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+                <button class="btn-new" onclick="openNewModal('modal-bodega')">+ Nueva bodega</button>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="loading" id="loading-bodegas">
+                <div class="spinner"></div> Cargando...
+              </div>
+              <table id="table-bodegas" style="display:none">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Capacidad</th>
+                    <th>Encargado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-bodegas"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="page-productos" class="page">
+            <div class="page-header">
+              <div class="page-title">Inventario de productos</div>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <input type="number" id="buscar-id-productos" placeholder="Buscar por ID..."
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px"
+                  oninput="buscarPorId('productos',this.value)">
+                <button onclick="limpiarBusqueda('productos')"
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+                <button id="btn-stock-bajo" onclick="toggleStockBajo()"
+                  style="border:1px solid var(--amber);border-radius:7px;padding:7px 14px;font-family:var(--sans);font-size:13px;background:var(--amber-bg);cursor:pointer;color:var(--amber);font-weight:500">⚠
+                  Stock bajo</button>
+                <button class="btn-new" onclick="openNewModal('modal-producto')">+ Nuevo producto</button>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="loading" id="loading-productos">
+                <div class="spinner"></div> Cargando...
+              </div>
+              <table id="table-productos" style="display:none">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Bodega</th>
+                    <th>Ubicación bodega</th>
+                    <th>Encargado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-productos"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="page-movimientos" class="page">
+            <div class="page-header">
+              <div class="page-title">Registro de movimientos</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="buscar-id-movimientos" placeholder="Buscar por ID..."
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px"
+                  oninput="buscarPorId('movimientos',this.value)">
+                <button onclick="limpiarBusqueda('movimientos')"
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+                <button class="btn-new" onclick="openModal('modal-movimiento')">+ Nuevo movimiento</button>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="loading" id="loading-movimientos">
+                <div class="spinner"></div> Cargando...
+              </div>
+              <table id="table-movimientos" style="display:none">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Usuario</th>
+                    <th>Bodega origen</th>
+                    <th>Bodega destino</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-movimientos"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="page-detalles" class="page">
+            <div class="page-header">
+              <div class="page-title">Detalle de movimientos</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="buscar-id-detalles" placeholder="Buscar por ID..."
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px"
+                  oninput="buscarPorId('detalles',this.value)">
+                <button onclick="limpiarBusqueda('detalles')"
+                  style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
+                <button class="btn-new" onclick="openModal('modal-detalle')">+ Nuevo detalle</button>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="loading" id="loading-detalles">
+                <div class="spinner"></div> Cargando...
+              </div>
+              <table id="table-detalles" style="display:none">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Cantidad</th>
+                    <th>Tipo mov.</th>
+                    <th>Fecha mov.</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Stock actual</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-detalles"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="page-auditoria" class="page">
+            <div class="page-header">
+              <div class="page-title">Registro de auditoría</div>
+            </div>
+            <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+              <input type="number" id="auditoria-buscar-id" placeholder="Buscar por ID..."
+                style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;width:160px"
+                oninput="filtrarAuditoria()">
+              <select id="auditoria-filtro-entidad" onchange="filtrarAuditoria()"
+                style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;background:var(--white)">
+                <option value="">Todas las entidades</option>
+                <option value="usuario">Usuario</option>
+                <option value="bodega">Bodega</option>
+                <option value="producto">Producto</option>
+                <option value="movimiento">Movimiento</option>
+                <option value="movimiento_detalle">Detalle movimiento</option>
+              </select>
+              <select id="auditoria-filtro-operacion" onchange="filtrarAuditoria()"
+                style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;background:var(--white)">
+                <option value="">Todas las operaciones</option>
+                <option value="INSERT">INSERT</option>
+                <option value="UPDATE">UPDATE</option>
+                <option value="DELETE">DELETE</option>
+              </select>
+              <button onclick="limpiarFiltrosAuditoria()"
+                style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 14px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">
+                Limpiar filtros
+              </button>
+            </div>
+            <div class="table-card" style="overflow-x:auto">
+              <div class="loading" id="loading-auditoria">
+                <div class="spinner"></div> Cargando...
+              </div>
+              <table id="table-auditoria" style="display:none;table-layout:auto">
+                <thead>
+                  <tr>
+                    <th style="width:50px">ID</th>
+                    <th style="width:110px">Entidad</th>
+                    <th style="width:90px">Operación</th>
+                    <th style="width:150px">Fecha y hora</th>
+                    <th style="min-width:220px">Valor anterior</th>
+                    <th style="min-width:220px">Valor nuevo</th>
+                    <th style="width:130px">Usuario</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-auditoria"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modal-usuario">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-usuario-title">Nuevo usuario</div><button class="btn-close"
+          onclick="closeModal('modal-usuario')">×</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="usuario-id">
+        <div class="field"><label>Nombre completo</label><input type="text" id="usuario-nombre"></div>
+        <div class="field"><label>Número de documento</label><input type="text" id="usuario-documento"></div>
+        <div class="field"><label>Nombre de usuario</label><input type="text" id="usuario-username"></div>
+        <div class="field"><label>Contraseña</label><input type="password" id="usuario-password"></div>
         <div class="field"><label>Rol</label>
-          <select id="reg-rol">
-            <option value="EMPLEADO" selected>Empleado</option>
+          <select id="usuario-rol">
+            <option value="ADMIN">Administrador</option>
+            <option value="EMPLEADO">Empleado</option>
           </select>
         </div>
-        <button class="btn-register" onclick="doRegistro()">Crear cuenta</button>
-        <div class="login-error" id="registro-error"></div>
-        <div class="login-success" id="registro-success">Cuenta creada correctamente. Ya puedes iniciar sesión.</div>
       </div>
-
+      <div class="modal-footer"><button class="btn-cancel"
+          onclick="closeModal('modal-usuario')">Cancelar</button><button class="btn-save"
+          onclick="saveUsuario()">Guardar</button></div>
     </div>
   </div>
-</div>
 
-<!-- DASHBOARD -->
-<!-- Overlay para cerrar sidebar en móvil -->
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
-<div id="dashboard">
-  <div class="layout">
-    <nav class="sidebar">
-      <div class="sb-header">
-        <div class="sb-logo-mark" style="display:grid;place-items:center"><svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-        <div class="sb-logo-text">Logi<span>Track</span></div>
+  <div class="modal-overlay" id="modal-bodega">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-bodega-title">Nueva bodega</div><button class="btn-close"
+          onclick="closeModal('modal-bodega')">×</button>
       </div>
-      <div class="sb-section">Módulos</div>
-      <div class="sb-item active" onclick="navigate('usuarios',this)"><span class="sb-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Usuarios</div>
-      <div class="sb-item" onclick="navigate('bodegas',this)"><span class="sb-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Bodegas</div>
-      <div class="sb-item" onclick="navigate('productos',this)"><span class="sb-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span> Productos</div>
-      <div class="sb-item" onclick="navigate('movimientos',this)"><span class="sb-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span> Movimientos</div>
-      <div class="sb-item" onclick="navigate('detalles',this)"><span class="sb-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span> Detalle Movimientos</div>
-      <div class="sb-item" onclick="navigate('auditoria',this)"><span class="sb-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Auditoría</div>
-      <div class="sb-footer">
-        <div class="sb-user">
-          <div class="sb-avatar" id="user-avatar">A</div>
-          <div class="sb-user-info">
-            <div class="sb-user-name" id="user-display">admin</div>
-            <div class="sb-user-role">Sesión activa</div>
-          </div>
-          <button class="btn-logout" title="Cerrar sesión" onclick="doLogout()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+      <div class="modal-body">
+        <input type="hidden" id="bodega-id">
+        <div class="field"><label>Nombre de la bodega</label><input type="text" id="bodega-nombre"></div>
+        <div class="field"><label>Ubicación</label><input type="text" id="bodega-ubicacion"></div>
+        <div class="field"><label>Capacidad</label><input type="number" id="bodega-capacidad"></div>
+        <div class="field"><label>Encargado</label>
+          <select id="bodega-usuarioid">
+            <option value="">Cargando...</option>
+          </select>
         </div>
       </div>
-    </nav>
+      <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('modal-bodega')">Cancelar</button><button
+          class="btn-save" onclick="saveBodega()">Guardar</button></div>
+    </div>
+  </div>
 
-    <div class="main">
-      <div class="topbar">
-        <button class="btn-hamburger" onclick="toggleSidebar()" aria-label="Menú">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
+  <div class="modal-overlay" id="modal-producto">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-producto-title">Nuevo producto</div><button class="btn-close"
+          onclick="closeModal('modal-producto')">×</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="producto-id">
+        <div class="field"><label>Nombre del producto</label><input type="text" id="producto-nombre"></div>
+        <div class="field"><label>Categoría</label><input type="text" id="producto-categoria"></div>
+        <div class="field"><label>Precio</label><input type="number" step="0.01" id="producto-precio"></div>
+        <div class="field"><label>Stock disponible</label><input type="number" id="producto-stock"></div>
+        <div class="field"><label>Bodega</label>
+          <select id="producto-bodegaid">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer"><button class="btn-cancel"
+          onclick="closeModal('modal-producto')">Cancelar</button><button class="btn-save"
+          onclick="saveProducto()">Guardar</button></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-movimiento">
+    <div class="modal" style="width:560px">
+      <div class="modal-header">
+        <div class="modal-title">Registrar movimiento</div><button class="btn-close"
+          onclick="closeModal('modal-movimiento')">×</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="movimiento-id">
+        <div class="field"><label>Fecha y hora</label><input type="datetime-local" id="movimiento-fecha"></div>
+        <div class="field"><label>Tipo de movimiento</label>
+          <select id="movimiento-tipo">
+            <option value="ENTRADA">Entrada</option>
+            <option value="SALIDA">Salida</option>
+            <option value="TRANSFERENCIA">Transferencia</option>
+          </select>
+        </div>
+        <div class="field"><label>Usuario responsable</label>
+          <select id="movimiento-usuarioid">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+        <div class="field"><label>Bodega origen</label>
+          <select id="movimiento-origenid">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+        <div class="field"><label>Bodega destino</label>
+          <select id="movimiento-destinoid">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+        <div style="margin-top:8px;margin-bottom:6px;font-size:13px;font-weight:600;color:var(--gray-700)">Productos del
+          movimiento</div>
+        <div id="detalles-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px"></div>
+        <button type="button" onclick="agregarFilaDetalle()"
+          style="background:none;border:1px dashed var(--gray-300);color:var(--blue);padding:8px;width:100%;border-radius:7px;cursor:pointer;font-size:13px;font-family:var(--sans);transition:all .15s"
+          onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--gray-300)'">
+          + Agregar producto
         </button>
-        <div class="topbar-title" id="topbar-title">Usuarios del sistema</div>
-        <div class="topbar-date" id="topbar-date"></div>
       </div>
-      <div class="content">
-
-        <div class="stats-row" id="stats-row" style="display:none">
-          <div class="stat-card" style="border-left:3px solid var(--blue)">
-            <div class="stat-card-label">Usuarios</div>
-            <div class="stat-card-value" id="stat-usuarios">—</div>
-            <div class="stat-card-sub">Registrados en el sistema</div>
-          </div>
-          <div class="stat-card" style="border-left:3px solid #8B5CF6">
-            <div class="stat-card-label">Bodegas</div>
-            <div class="stat-card-value" id="stat-bodegas">—</div>
-            <div class="stat-card-sub">Almacenes activos</div>
-          </div>
-          <div class="stat-card" style="border-left:3px solid var(--green)">
-            <div class="stat-card-label">Productos</div>
-            <div class="stat-card-value" id="stat-productos">—</div>
-            <div class="stat-card-sub">Ítems en inventario</div>
-          </div>
-          <div class="stat-card" style="border-left:3px solid var(--amber)">
-            <div class="stat-card-label">Movimientos</div>
-            <div class="stat-card-value" id="stat-movimientos">—</div>
-            <div class="stat-card-sub">Transacciones totales</div>
-          </div>
-        </div>
-
-        <div id="page-usuarios" class="page active">
-          <div class="page-header">
-            <div class="page-title">Usuarios del sistema</div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <input type="number" id="buscar-id-usuarios" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('usuarios',this.value)">
-              <button onclick="limpiarBusqueda('usuarios')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
-              <button class="btn-new" onclick="openNewModal('modal-usuario')">+ Nuevo usuario</button>
-            </div>
-          </div>
-          <div class="table-card">
-            <div class="loading" id="loading-usuarios"><div class="spinner"></div> Cargando...</div>
-            <table id="table-usuarios" style="display:none">
-              <thead><tr><th>ID</th><th>Nombre completo</th><th>Documento</th><th>Usuario</th><th>Rol</th><th>Acciones</th></tr></thead>
-              <tbody id="tbody-usuarios"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="page-bodegas" class="page">
-          <div class="page-header">
-            <div class="page-title">Bodegas registradas</div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <input type="number" id="buscar-id-bodegas" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('bodegas',this.value)">
-              <button onclick="limpiarBusqueda('bodegas')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
-              <button class="btn-new" onclick="openNewModal('modal-bodega')">+ Nueva bodega</button>
-            </div>
-          </div>
-          <div class="table-card">
-            <div class="loading" id="loading-bodegas"><div class="spinner"></div> Cargando...</div>
-            <table id="table-bodegas" style="display:none">
-              <thead><tr><th>ID</th><th>Nombre</th><th>Ubicación</th><th>Capacidad</th><th>Encargado</th><th>Acciones</th></tr></thead>
-              <tbody id="tbody-bodegas"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="page-productos" class="page">
-          <div class="page-header">
-            <div class="page-title">Inventario de productos</div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <input type="number" id="buscar-id-productos" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('productos',this.value)">
-              <button onclick="limpiarBusqueda('productos')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
-              <button id="btn-stock-bajo" onclick="toggleStockBajo()" style="border:1px solid var(--amber);border-radius:7px;padding:7px 14px;font-family:var(--sans);font-size:13px;background:var(--amber-bg);cursor:pointer;color:var(--amber);font-weight:500">⚠ Stock bajo</button>
-              <button class="btn-new" onclick="openNewModal('modal-producto')">+ Nuevo producto</button>
-            </div>
-          </div>
-          <div class="table-card">
-            <div class="loading" id="loading-productos"><div class="spinner"></div> Cargando...</div>
-            <table id="table-productos" style="display:none">
-              <thead><tr><th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Bodega</th><th>Ubicación bodega</th><th>Encargado</th><th>Acciones</th></tr></thead>
-              <tbody id="tbody-productos"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="page-movimientos" class="page">
-          <div class="page-header">
-            <div class="page-title">Registro de movimientos</div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <input type="number" id="buscar-id-movimientos" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('movimientos',this.value)">
-              <button onclick="limpiarBusqueda('movimientos')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
-              <button class="btn-new" onclick="openModal('modal-movimiento')">+ Nuevo movimiento</button>
-            </div>
-          </div>
-          <div class="table-card">
-            <div class="loading" id="loading-movimientos"><div class="spinner"></div> Cargando...</div>
-            <table id="table-movimientos" style="display:none">
-              <thead><tr><th>ID</th><th>Fecha</th><th>Tipo</th><th>Usuario</th><th>Bodega origen</th><th>Bodega destino</th><th>Acciones</th></tr></thead>
-              <tbody id="tbody-movimientos"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="page-detalles" class="page">
-          <div class="page-header">
-            <div class="page-title">Detalle de movimientos</div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <input type="number" id="buscar-id-detalles" placeholder="Buscar por ID..." style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 12px;font-family:var(--sans);font-size:13px;outline:none;width:150px" oninput="buscarPorId('detalles',this.value)">
-              <button onclick="limpiarBusqueda('detalles')" style="border:1px solid var(--gray-300);border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">&#10005;</button>
-              <button class="btn-new" onclick="openModal('modal-detalle')">+ Nuevo detalle</button>
-            </div>
-          </div>
-          <div class="table-card">
-            <div class="loading" id="loading-detalles"><div class="spinner"></div> Cargando...</div>
-            <table id="table-detalles" style="display:none">
-              <thead><tr><th>ID</th><th>Cantidad</th><th>Tipo mov.</th><th>Fecha mov.</th><th>Producto</th><th>Categoría</th><th>Stock actual</th><th>Acciones</th></tr></thead>
-              <tbody id="tbody-detalles"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="page-auditoria" class="page">
-          <div class="page-header">
-            <div class="page-title">Registro de auditoría</div>
-          </div>
-          <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
-            <input type="number" id="auditoria-buscar-id" placeholder="Buscar por ID..."
-              style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;width:160px"
-              oninput="filtrarAuditoria()">
-            <select id="auditoria-filtro-entidad" onchange="filtrarAuditoria()"
-              style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;background:var(--white)">
-              <option value="">Todas las entidades</option>
-              <option value="usuario">Usuario</option>
-              <option value="bodega">Bodega</option>
-              <option value="producto">Producto</option>
-              <option value="movimiento">Movimiento</option>
-              <option value="movimiento_detalle">Detalle movimiento</option>
-            </select>
-            <select id="auditoria-filtro-operacion" onchange="filtrarAuditoria()"
-              style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 12px;font-family:var(--sans);font-size:13px;outline:none;background:var(--white)">
-              <option value="">Todas las operaciones</option>
-              <option value="INSERT">INSERT</option>
-              <option value="UPDATE">UPDATE</option>
-              <option value="DELETE">DELETE</option>
-            </select>
-            <button onclick="limpiarFiltrosAuditoria()"
-              style="border:1px solid var(--gray-300);border-radius:7px;padding:8px 14px;font-family:var(--sans);font-size:13px;background:var(--white);cursor:pointer;color:var(--gray-500)">
-              Limpiar filtros
-            </button>
-          </div>
-          <div class="table-card" style="overflow-x:auto">
-            <div class="loading" id="loading-auditoria"><div class="spinner"></div> Cargando...</div>
-            <table id="table-auditoria" style="display:none;table-layout:auto">
-              <thead>
-                <tr>
-                  <th style="width:50px">ID</th>
-                  <th style="width:110px">Entidad</th>
-                  <th style="width:90px">Operación</th>
-                  <th style="width:150px">Fecha y hora</th>
-                  <th style="min-width:220px">Valor anterior</th>
-                  <th style="min-width:220px">Valor nuevo</th>
-                  <th style="width:130px">Usuario</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-auditoria"></tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
+      <div class="modal-footer"><button class="btn-cancel"
+          onclick="closeModal('modal-movimiento')">Cancelar</button><button class="btn-save"
+          onclick="saveMovimiento()">Guardar movimiento</button></div>
     </div>
   </div>
-</div>
 
-<!-- MODALS -->
-<div class="modal-overlay" id="modal-usuario">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title" id="modal-usuario-title">Nuevo usuario</div><button class="btn-close" onclick="closeModal('modal-usuario')">×</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="usuario-id">
-      <div class="field"><label>Nombre completo</label><input type="text" id="usuario-nombre"></div>
-      <div class="field"><label>Número de documento</label><input type="text" id="usuario-documento"></div>
-      <div class="field"><label>Nombre de usuario</label><input type="text" id="usuario-username"></div>
-      <div class="field"><label>Contraseña</label><input type="password" id="usuario-password"></div>
-      <div class="field"><label>Rol</label>
-        <select id="usuario-rol"><option value="ADMIN">Administrador</option><option value="EMPLEADO">Empleado</option></select>
+  <div class="modal-overlay" id="modal-detalle">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Editar detalle</div><button class="btn-close"
+          onclick="closeModal('modal-detalle')">×</button>
       </div>
+      <div class="modal-body">
+        <input type="hidden" id="detalle-id">
+        <div class="field"><label>Cantidad</label><input type="number" id="detalle-cantidad"></div>
+        <div class="field"><label>Movimiento</label>
+          <select id="detalle-movimientoid">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+        <div class="field"><label>Producto</label>
+          <select id="detalle-productoid">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer"><button class="btn-cancel"
+          onclick="closeModal('modal-detalle')">Cancelar</button><button class="btn-save"
+          onclick="saveDetalle()">Guardar</button></div>
     </div>
-    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('modal-usuario')">Cancelar</button><button class="btn-save" onclick="saveUsuario()">Guardar</button></div>
   </div>
-</div>
 
-<div class="modal-overlay" id="modal-bodega">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title" id="modal-bodega-title">Nueva bodega</div><button class="btn-close" onclick="closeModal('modal-bodega')">×</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="bodega-id">
-      <div class="field"><label>Nombre de la bodega</label><input type="text" id="bodega-nombre"></div>
-      <div class="field"><label>Ubicación</label><input type="text" id="bodega-ubicacion"></div>
-      <div class="field"><label>Capacidad</label><input type="number" id="bodega-capacidad"></div>
-      <div class="field"><label>Encargado</label>
-        <select id="bodega-usuarioid"><option value="">Cargando...</option></select>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('modal-bodega')">Cancelar</button><button class="btn-save" onclick="saveBodega()">Guardar</button></div>
-  </div>
-</div>
+  <div id="toast-container"></div>
 
-<div class="modal-overlay" id="modal-producto">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title" id="modal-producto-title">Nuevo producto</div><button class="btn-close" onclick="closeModal('modal-producto')">×</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="producto-id">
-      <div class="field"><label>Nombre del producto</label><input type="text" id="producto-nombre"></div>
-      <div class="field"><label>Categoría</label><input type="text" id="producto-categoria"></div>
-      <div class="field"><label>Precio</label><input type="number" step="0.01" id="producto-precio"></div>
-      <div class="field"><label>Stock disponible</label><input type="number" id="producto-stock"></div>
-      <div class="field"><label>Bodega</label>
-        <select id="producto-bodegaid"><option value="">Cargando...</option></select>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('modal-producto')">Cancelar</button><button class="btn-save" onclick="saveProducto()">Guardar</button></div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-movimiento">
-  <div class="modal" style="width:560px">
-    <div class="modal-header"><div class="modal-title">Registrar movimiento</div><button class="btn-close" onclick="closeModal('modal-movimiento')">×</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="movimiento-id">
-      <div class="field"><label>Fecha y hora</label><input type="datetime-local" id="movimiento-fecha"></div>
-      <div class="field"><label>Tipo de movimiento</label>
-        <select id="movimiento-tipo"><option value="ENTRADA">Entrada</option><option value="SALIDA">Salida</option><option value="TRANSFERENCIA">Transferencia</option></select>
-      </div>
-      <div class="field"><label>Usuario responsable</label>
-        <select id="movimiento-usuarioid"><option value="">Cargando...</option></select>
-      </div>
-      <div class="field"><label>Bodega origen</label>
-        <select id="movimiento-origenid"><option value="">Cargando...</option></select>
-      </div>
-      <div class="field"><label>Bodega destino</label>
-        <select id="movimiento-destinoid"><option value="">Cargando...</option></select>
-      </div>
-      <div style="margin-top:8px;margin-bottom:6px;font-size:13px;font-weight:600;color:var(--gray-700)">Productos del movimiento</div>
-      <div id="detalles-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px"></div>
-      <button type="button" onclick="agregarFilaDetalle()" style="background:none;border:1px dashed var(--gray-300);color:var(--blue);padding:8px;width:100%;border-radius:7px;cursor:pointer;font-size:13px;font-family:var(--sans);transition:all .15s"
-        onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--gray-300)'">
-        + Agregar producto
-      </button>
-    </div>
-    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('modal-movimiento')">Cancelar</button><button class="btn-save" onclick="saveMovimiento()">Guardar movimiento</button></div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-detalle">
-  <div class="modal">
-    <div class="modal-header"><div class="modal-title">Editar detalle</div><button class="btn-close" onclick="closeModal('modal-detalle')">×</button></div>
-    <div class="modal-body">
-      <input type="hidden" id="detalle-id">
-      <div class="field"><label>Cantidad</label><input type="number" id="detalle-cantidad"></div>
-      <div class="field"><label>Movimiento</label>
-        <select id="detalle-movimientoid"><option value="">Cargando...</option></select>
-      </div>
-      <div class="field"><label>Producto</label>
-        <select id="detalle-productoid"><option value="">Cargando...</option></select>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('modal-detalle')">Cancelar</button><button class="btn-save" onclick="saveDetalle()">Guardar</button></div>
-  </div>
-</div>
-
-<div id="toast-container"></div>
-
-
-
-    <script src="/frontend_logitrack/app.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>

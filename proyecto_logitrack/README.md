@@ -1,5 +1,7 @@
 ## Proyecto Spring Boot LogiTrack
 
+## BASE DE DATOS MYSQL
+
 ````mysql
 -- ==========================
 -- CREAR BASE DE DATOS
