@@ -194,3 +194,143 @@ tbody td.id { font-size: 12px; color: var(--gray-400); font-weight: 500; }
 }
 .toast.error { border-left-color: var(--red); }
 .toast-icon { flex-shrink: 0; margin-top: 1px; }
+
+/*Efectosss*/
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes slideIn { from { opacity:0; transform:translateX(12px); } to { opacity:1; transform:translateX(0); } }
+@keyframes modalIn { from { opacity:0; transform:scale(.97) translateY(6px); } to { opacity:1; transform:scale(1) translateY(0); } }
+
+/* ===================================================
+   RESPONSIVE — MOBILE & TABLET
+   =================================================== */
+
+/* Hamburger button — solo visible en móvil */
+.btn-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--gray-500);
+  margin-right: 8px;
+  transition: all .15s;
+}
+.btn-hamburger:hover { background: var(--gray-100); color: var(--gray-900); }
+.btn-hamburger svg { display: block; }
+
+/* Overlay para cerrar el sidebar en móvil */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.5);
+  z-index: 49;
+}
+.sidebar-overlay.open { display: block; }
+
+/* ===== TABLET (≤ 1024px) ===== */
+@media (max-width: 1024px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .login-panel { width: 340px; padding: 40px 32px; }
+}
+
+/* ===== MÓVIL (≤ 768px) ===== */
+@media (max-width: 768px) {
+
+  /* LOGIN */
+  #login-screen { flex-direction: column; }
+
+  .login-panel {
+    width: 100%;
+    padding: 32px 24px 24px;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    min-height: auto;
+  }
+
+  .lp-logo { margin-bottom: 0; }
+  .lp-headline, .lp-desc, .lp-features, .lp-footer { display: none; }
+
+  .login-form-wrap { padding: 24px 16px; }
+  .login-card { padding: 24px 20px; }
+
+  /* SIDEBAR — drawer deslizable */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    z-index: 50;
+    width: 260px;
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  /* MAIN — sin margen lateral */
+  .main { margin-left: 0; }
+
+  /* TOPBAR */
+  .topbar { padding: 0 16px; }
+  .btn-hamburger { display: flex; align-items: center; justify-content: center; }
+  .topbar-date { display: none; }
+
+  /* STATS */
+  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 14px 16px; }
+  .stat-card-value { font-size: 22px; }
+
+  /* CONTENT */
+  .content { padding: 16px; }
+
+  /* PAGE HEADER */
+  .page-header { flex-wrap: wrap; gap: 10px; }
+  .page-title { font-size: 14px; }
+
+  /* TABLAS — scroll horizontal */
+  .table-card { overflow-x: auto; }
+  table { min-width: 600px; }
+
+  /* MODALES — full screen en móvil */
+  .modal {
+    width: 100% !important;
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 16px 16px 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    animation: slideUp .25s ease;
+  }
+
+  .modal-overlay { align-items: flex-end; }
+
+  /* FILTROS AUDITORÍA */
+  #page-auditoria .page-header + div {
+    flex-direction: column;
+  }
+
+  #page-auditoria .page-header + div input,
+  #page-auditoria .page-header + div select,
+  #page-auditoria .page-header + div button {
+    width: 100%;
+  }
+
+  /* Botones de acción más compactos */
+  .btn-action { padding: 4px 8px; font-size: 11px; }
+  .btn-new { padding: 7px 12px; font-size: 12px; }
+}
+
+/* ===== MÓVIL PEQUEÑO (≤ 480px) ===== */
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .stat-card-value { font-size: 20px; }
+  .stat-card-sub { display: none; }
+  .login-card { padding: 20px 16px; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
