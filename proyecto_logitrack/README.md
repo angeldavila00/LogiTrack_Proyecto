@@ -145,13 +145,13 @@ INSERT INTO producto (nombre, categoria, precio, stock, bodega_id) VALUES
 -- MOVIMIENTOS
 -- ==========================
 INSERT INTO movimiento (fecha, tipo_movimiento, usuario_id, bodega_origen_id, bodega_destino_id) VALUES
-                                                                                                     ('2026-01-10 08:30:00', 'ENTRADA',       12, 1, 1),
-                                                                                                     ('2026-01-15 10:00:00', 'ENTRADA',       13, 2, 2),
-                                                                                                     ('2026-02-03 14:20:00', 'TRANSFERENCIA', 12, 1, 3),
-                                                                                                     ('2026-02-18 09:45:00', 'SALIDA',        14, 3, 3),
-                                                                                                     ('2026-03-05 11:15:00', 'ENTRADA',       15, 4, 4),
-                                                                                                     ('2026-03-10 16:00:00', 'TRANSFERENCIA', 12, 2, 5),
-                                                                                                     ('2026-03-12 08:00:00', 'SALIDA',        16, 5, 5);
+('2026-01-10 08:30:00', 'ENTRADA',       12, 1, 1),
+('2026-01-15 10:00:00', 'ENTRADA',       13, 2, 2),
+('2026-02-03 14:20:00', 'TRANSFERENCIA', 12, 1, 3),
+('2026-02-18 09:45:00', 'SALIDA',        14, 3, 3),
+('2026-03-05 11:15:00', 'ENTRADA',       15, 4, 4),
+('2026-03-10 16:00:00', 'TRANSFERENCIA', 12, 2, 5),
+('2026-03-12 08:00:00', 'SALIDA',        16, 5, 5);
 
 
 USE logitrack_davila;
@@ -200,13 +200,13 @@ INSERT INTO producto (nombre, categoria, precio, stock, bodega_id) VALUES
 -- MOVIMIENTOS
 -- ==========================
 INSERT INTO movimiento (fecha, tipo_movimiento, usuario_id, bodega_origen_id, bodega_destino_id) VALUES
-                                                                                                     ('2026-01-10 08:30:00', 'ENTRADA',       12, 1, 1),
-                                                                                                     ('2026-01-15 10:00:00', 'ENTRADA',       13, 2, 2),
-                                                                                                     ('2026-02-03 14:20:00', 'TRANSFERENCIA', 12, 1, 3),
-                                                                                                     ('2026-02-18 09:45:00', 'SALIDA',        14, 3, 3),
-                                                                                                     ('2026-03-05 11:15:00', 'ENTRADA',       15, 4, 4),
-                                                                                                     ('2026-03-10 16:00:00', 'TRANSFERENCIA', 12, 2, 5),
-                                                                                                     ('2026-03-12 08:00:00', 'SALIDA',        16, 5, 5);
+('2026-01-10 08:30:00', 'ENTRADA',       12, 1, 1),
+('2026-01-15 10:00:00', 'ENTRADA',       13, 2, 2),
+('2026-02-03 14:20:00', 'TRANSFERENCIA', 12, 1, 3),
+('2026-02-18 09:45:00', 'SALIDA',        14, 3, 3),
+('2026-03-05 11:15:00', 'ENTRADA',       15, 4, 4),
+('2026-03-10 16:00:00', 'TRANSFERENCIA', 12, 2, 5),
+('2026-03-12 08:00:00', 'SALIDA',        16, 5, 5);
 
 -- ==========================
 -- MOVIMIENTO DETALLES
