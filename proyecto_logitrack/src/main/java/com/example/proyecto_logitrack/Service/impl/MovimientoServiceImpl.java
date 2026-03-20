@@ -193,4 +193,20 @@ public class MovimientoServiceImpl implements MovimientoService {
                 .ifPresent(responsable -> auditoriaService.registrar("movimiento", Operacion.DELETE,
                         valorAnterior, null, responsable.getId(), responsable.getNombre()));
     }
+
+    @Override
+    public List<MovimientoResponseDTO> listarRecientes() {
+        return movimientoRepository.findTop10ByOrderByFechaDesc().stream().map(m -> {
+            UsuarioResponseDTO dtoUsuario = usuarioMapper.entidadADTO(
+                    usuarioRepository.findById(m.getUsuario().getId())
+                            .orElseThrow(() -> new RuntimeException("Error: no existe el usuario")));
+            BodegaResponseDTO dtoOrigen = bodegaMapper.entidadADTO(
+                    bodegaRepository.findById(m.getBodegaOrigen().getId())
+                            .orElseThrow(() -> new RuntimeException("Error: no existe la bodega origen")), dtoUsuario);
+            BodegaResponseDTO dtoDestino = bodegaMapper.entidadADTO(
+                    bodegaRepository.findById(m.getBodegaDestino().getId())
+                            .orElseThrow(() -> new RuntimeException("Error: no existe la bodega destino")), dtoUsuario);
+            return movimientoMapper.entidadADTO(m, dtoUsuario, dtoOrigen, dtoDestino);
+        }).toList();
+    }
 }

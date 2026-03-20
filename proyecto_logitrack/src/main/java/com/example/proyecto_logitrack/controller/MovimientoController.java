@@ -127,4 +127,22 @@ public class MovimientoController {
         movimientoService.eliminarMovimiento(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/recientes")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Movimientos recientes encontrados"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Movimientos no encontrados",
+                    content = @Content
+
+            )
+    })
+    public ResponseEntity<List<MovimientoResponseDTO>> listarRecientes() {
+        List<MovimientoResponseDTO> recientes = movimientoService.listarRecientes();
+        return ResponseEntity.ok(recientes);
+    }
 }

@@ -13,5 +13,7 @@ public interface MovimientoService {
     List<MovimientoResponseDTO> listarMovimientos();
     MovimientoResponseDTO buscarPorId(Long id);
     void eliminarMovimiento(Long id);
+    //listar Recientes
+    List<MovimientoResponseDTO> listarRecientes();
 
 }
