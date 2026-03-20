@@ -61,7 +61,8 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "http://localhost:5500",
                 "http://172.16.41.25:5500",
-                "http://127.0.0.1:5501"));
+                "http://127.0.0.1:5501",
+                "http://172.16.41.55:5501"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

@@ -25,7 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final JwtService jwtService;
@@ -87,6 +87,8 @@ public class AuthController {
         ));
         return ResponseEntity.ok(Map.of("mensaje", "Usuario creado correctamente"));
     }
+
+
 
 
 }

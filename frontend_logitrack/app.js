@@ -1,4 +1,4 @@
-const API = 'http://192.168.1.79:8080';
+const API = 'http://172.16.41.39:8080';
 
 document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') doLogin(); });
